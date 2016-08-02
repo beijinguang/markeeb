@@ -5,6 +5,8 @@ categories: [Hexo]
 tags: [Hexo]
 ---
 
+hexo生成的第一篇文章
+<!-- more -->
 ## Quick Start
 
 ### Create a new post

@@ -3,6 +3,9 @@ title: 在多台电脑上使用hexo
 date: 2016-08-01 12:42:35
 tags: hexo
 ---
+
+家里和公司可以同时写了
+<!-- more -->
 ### 1.上传初始电脑上的Hexo源文件到github的“hexo”仓库
     git init
     git add README.md
