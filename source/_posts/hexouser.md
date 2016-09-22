@@ -1,7 +1,8 @@
 ---
 title: 在多台电脑上使用hexo
 date: 2016-08-01 12:42:35
-tags: hexo
+categories: [Hexo]
+tags: [Hexo]
 ---
 
 家里和公司可以同时写了

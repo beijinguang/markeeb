@@ -1,6 +1,7 @@
 ---
 title: 喜欢的NBA海报
 date: 2016-08-03 21:01:24
+categories: [NBA]
 tags: NBA
 ---
 
