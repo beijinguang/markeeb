@@ -1,4 +1,4 @@
-er-Agent: *
+User-Agent: *
 Allow: /
 Disallow: /background
 Disallow: /css
