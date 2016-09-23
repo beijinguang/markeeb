@@ -1,5 +1,5 @@
 ---
-title: 存储过程
+title: 存储过程的优缺点
 date: 2016-08-08 16:24:05
 categories: [database]
 tags: [Stored Procedure]
