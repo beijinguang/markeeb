@@ -2,7 +2,7 @@
 title: MySQL 存储过程的使用
 date: 2016-08-08 17:27:18
 categories: [database]
-tags: [Stored Procedure] 
+tags: [Stored Procedure,mysql] 
 ---
 
 存储过程的使用
