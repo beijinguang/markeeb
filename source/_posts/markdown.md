@@ -30,3 +30,5 @@ markdown
     [显示](链接)
 ### 图片
     ![](/node4.jpg)
+    
+[参考网址](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown)
