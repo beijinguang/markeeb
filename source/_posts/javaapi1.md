@@ -3,7 +3,7 @@ title: Java API 学习之ClassLoader
 categories: [java]
 tags: [java]
 date: 2016-12-08 10:13:42
-description:
+description: ClassLoader
 ---
 
 ### 基本信息

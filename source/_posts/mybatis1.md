@@ -1,13 +1,14 @@
 ---
-title: mybatis1
-categories: []
-tags: []
+title: mybatis generator 配置文件
+categories: [mybatis]
+tags: [mybatis]
 date: 2016-12-12 17:04:37
-description:
+description: mybatis generator xml详解
 ---
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >  
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" 
+"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >  
 <generatorConfiguration>  
     <!-- 引入配置文件 -->  
     <properties resource="init.properties"/>  
