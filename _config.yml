@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: markee's blog
+title: 码客Mark
 subtitle: 预测未来最好的方法是在现在创造未来
 description:
 author: markee
@@ -69,9 +69,16 @@ search:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 
+
+
 #sitemap
+
 sitemap:
   path: sitemap.xml
+baidusitemap:
+    path: baidusitemap.xml
+
+
 
 #Feed Atom
 feed:
@@ -79,7 +86,7 @@ feed:
   path: atom.xml
   limit: 20
 ## Themes: https://hexo.io/themes/
-theme: yelee
+theme: landscape
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

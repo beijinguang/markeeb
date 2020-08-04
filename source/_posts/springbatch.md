@@ -3,7 +3,7 @@ title: springbatch
 categories: [spring]
 tags: [spring batch]
 date: 2016-12-27 14:29:23
-description:
+description: springbatch
 ---
 
 spring batch是用来处理大量数据操作的一个框架，主要用来读取大量数据，然后进行一定处理后的指定形式。
