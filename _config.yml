@@ -86,7 +86,7 @@ feed:
   path: atom.xml
   limit: 20
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: yelee
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -94,3 +94,9 @@ deploy:
   type: git
   repo: git@github.com:beijinguang/beijinguang.github.io.git
   branch: master
+
+# Mermaid tag
+mermaid:
+  enable: true
+  # Available themes: default | dark | forest | neutral
+  theme: forest
