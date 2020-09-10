@@ -1,4 +1,4 @@
-
+/.idea/
 
 # Logs
 logs
@@ -118,4 +118,5 @@ dist
 .pnp.*
 
 *.pdf
-/.idea/
+
+
