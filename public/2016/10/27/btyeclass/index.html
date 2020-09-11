@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="markee" />
+
+
+
+<meta name="description" content="Class类文件解析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Class类文件的结构">
+<meta property="og:url" content="http://code.idea4j.com/2016/10/27/btyeclass/index.html">
+<meta property="og:site_name" content="码客Mark">
+<meta property="og:description" content="Class类文件解析">
+<meta property="og:updated_time" content="2016-10-27T09:34:16.248Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Class类文件的结构">
+<meta name="twitter:description" content="Class类文件解析">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="码客Mark" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Class类文件的结构 | 码客Mark</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?c160bf5d12f84389ce96c02b54e4575f";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/head.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">markee</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">预测未来最好的方法是在现在创造未来</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:wangjinguang66@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/beijinguang" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/">CI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/">Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GoF/">GoF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua/">Lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NBA/">NBA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pinpoint/">Pinpoint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stored-Procedure/">Stored Procedure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Transaction/">Transaction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angularjs2/">angularjs2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iframe/">iframe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maxwell/">maxwell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-batch/">spring batch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/starUML/">starUML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime-text/">sublime text</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xpath/">xpath</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习/">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常/">异常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信小程序/">微信小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/游戏/">游戏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识/">知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/社会/">社会</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神舟飞船/">神舟飞船</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统性能/">系统性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/索引/">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网站/">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/里约/">里约</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链路追踪/">链路追踪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题/">问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">笨鸟也飞</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">markee</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/head.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">markee</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">预测未来最好的方法是在现在创造未来</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:wangjinguang66@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/beijinguang" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-btyeclass" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/27/btyeclass/" class="article-date">
+      <time datetime="2016-10-27T02:07:36.000Z" itemprop="datePublished">2016-10-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Class类文件的结构
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/jvm/">jvm</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jvm/">jvm</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Class &#x6587;&#x4EF6;&#x662F;&#x4E00;&#x7EC4;&#x4EE5;8&#x4F4D;&#x5B57;&#x8282;&#x4E3A;&#x57FA;&#x7840;&#x5355;&#x4F4D;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6D41;&#xFF0C;&#x5404;&#x4E2A;&#x6570;&#x636E;&#x9879;&#x76EE;&#x4E25;&#x683C;&#x6309;&#x7167;&#x987A;&#x5E8F;&#x7D27;&#x51D1;&#x5730;&#x6392;&#x5217;&#x5728;Class&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x4E2D;&#x95F4;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5206;&#x9694;&#x7B26;&#xFF0C;&#x8FD9;<br>&#x4F7F;&#x5F97;&#x6574;&#x4E2A;Class&#x6587;&#x4EF6;&#x4E4B;&#x4E2D;&#x5B58;&#x50A8;&#x7684;&#x5185;&#x5BB9;&#x51E0;&#x4E4E;&#x5168;&#x90E8;&#x662F;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x7684;&#x5FC5;&#x8981;&#x6570;&#x636E;&#xFF0C;&#x6CA1;&#x6709;&#x7A7A;&#x9699;&#x5B58;&#x5728;&#x3002;&#x5F53;&#x9047;&#x5230;&#x9700;&#x8981;&#x5360;&#x7528;8&#x4F4D;&#x5B57;&#x8282;&#x4EE5;&#x4E0A;&#x7A7A;&#x95F4;&#x7684;&#x6570;&#x636E;&#x9879;&#x662F;&#xFF0C;&#x5219;&#x4F1A;<br>&#x6309;&#x7167;&#x9AD8;&#x4F4D;&#x5728;&#x524D;&#x7684;&#x65B9;&#x5F0F;&#x5206;&#x5272;&#x6210;&#x82E5;&#x5E72;&#x4E2A;8&#x4F4D;&#x5B57;&#x8282;&#x8FDB;&#x884C;&#x5B58;&#x50A8;&#x3002;</p>
+<p>Class&#x7ED3;&#x6784;&#x4E2D;&#x53EA;&#x6709;&#x4E24;&#x79CD;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF1A;&#x65E0;&#x7B26;&#x53F7;&#x6570;&#x548C;&#x8868;</p>
+<h3 id="&#x65E0;&#x7B26;&#x53F7;&#x6570;"><a href="#&#x65E0;&#x7B26;&#x53F7;&#x6570;" class="headerlink" title="&#x65E0;&#x7B26;&#x53F7;&#x6570;"></a>&#x65E0;&#x7B26;&#x53F7;&#x6570;</h3><p>&#x5C5E;&#x4E8E;&#x57FA;&#x672C;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF0C;&#x4EE5;u1&#x3001;u2&#x3001;u4&#x3001;u8&#x6765;&#x5206;&#x522B;&#x4EE3;&#x8868;1&#x4E2A;&#x5B57;&#x8282;&#x3001;2&#x4E2A;&#x5B57;&#x8282;&#x3001;4&#x4E2A;&#x5B57;&#x8282;&#x3001;8&#x4E2A;&#x5B57;&#x8282;&#x7684;&#x65E0;&#x7B26;&#x53F7;&#x6570;&#xFF0C;&#x65E0;&#x7B26;&#x53F7;&#x6570;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x63CF;&#x8FF0;&#x6570;&#x5B57;&#x3001;<br>&#x7D22;&#x5F15;&#x5F15;&#x7528;&#x3001;&#x6570;&#x91CF;&#x503C;&#x6216;&#x8005;&#x6309;&#x7167;&#x7F16;&#x7801;&#x6784;&#x6210;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<h3 id="&#x8868;"><a href="#&#x8868;" class="headerlink" title="&#x8868;"></a>&#x8868;</h3><p>&#x8868;&#x662F;&#x7531;&#x591A;&#x4E2A;&#x65E0;&#x7B26;&#x53F7;&#x6570;&#x6216;&#x8005;&#x5176;&#x4ED6;&#x8868;&#x4F5C;&#x4E3A;&#x6570;&#x636E;&#x9879;&#x6784;&#x6210;&#x7684;&#x590D;&#x5408;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF0C;&#x6240;&#x6709;&#x8868;&#x90FD;&#x4E60;&#x60EF;&#x6027;&#x5730;&#x4EE5;&#x201C;_info&#x201D; &#x7ED3;&#x5C3E;&#x3002;&#x8868;&#x7528;&#x4E8E;&#x63CF;&#x8FF0;&#x6709;&#x5C42;&#x6B21;&#x5173;&#x7CFB;&#x7684;&#x590D;<br>&#x5408;&#x7ED3;&#x6784;&#x6570;&#x636E;&#xFF0C;&#x6574;&#x4E2A;Class&#x6587;&#x4EF6;&#x672C;&#x8D28;&#x4E0A;&#x5C31;&#x662F;&#x4E00;&#x5F20;&#x8868;,&#x7531;&#x4E0B;&#x5217;&#x6570;&#x636E;&#x9879;&#x6784;&#x6210;&#x3002;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">&#x7C7B;&#x578B;</th>
+<th style="text-align:left">&#x540D;&#x79F0;</th>
+<th style="text-align:left">&#x6570;&#x91CF;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">u4</td>
+<td style="text-align:left">magic</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">minor_version</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">major_version</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">constant_pool_count</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">cp_info</td>
+<td style="text-align:left">constant_pool</td>
+<td style="text-align:left">constant_pool_count-1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">access_flags</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">this_class</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">super_class</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">interfaces_count</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">interface</td>
+<td style="text-align:left">interfaces_count</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">fields_count</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">field_info</td>
+<td style="text-align:left">fields</td>
+<td style="text-align:left">fields_count</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">methods_count</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">method_info</td>
+<td style="text-align:left">methods</td>
+<td style="text-align:left">methods_count</td>
+</tr>
+<tr>
+<td style="text-align:center">u2</td>
+<td style="text-align:left">attributes_count</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:center">attribute_info</td>
+<td style="text-align:left">attributes</td>
+<td style="text-align:left">attributes_count</td>
+</tr>
+</tbody>
+</table>
+<h3 id="&#x9B54;&#x6570;"><a href="#&#x9B54;&#x6570;" class="headerlink" title="&#x9B54;&#x6570;"></a>&#x9B54;&#x6570;</h3><p>&#x6BCF;&#x4E2A;Class&#x6587;&#x4EF6;&#x7684;&#x5934;4&#x4E2A;&#x5B57;&#x8282;&#x79F0;&#x4E3A;&#x9B54;&#x6570;&#xFF08;Magic Number&#xFF09;&#xFF0C;&#x5B83;&#x7684;&#x552F;&#x4E00;&#x4F5C;&#x7528;&#x662F;&#x786E;&#x5B9A;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x662F;&#x4E00;&#x4E2A;&#x80FD;&#x88AB;&#x865A;&#x62DF;&#x673A;&#x63A5;&#x53D7;&#x7684;Class<br>&#x6587;&#x4EF6;&#x3002;Class&#x6587;&#x4EF6;&#x7684;&#x9B54;&#x6570;&#x503C;&#x4E3A;&#xFF1A;0xCAFEBABE&#xFF08;&#x5496;&#x5561;&#x5B9D;&#x8D1D;&#xFF09;&#x3002;<br>&#x7D27;&#x63A5;&#x7740;&#x9B54;&#x6570;&#x7684;4&#x4E2A;&#x5B57;&#x8282;&#x5B58;&#x50A8;&#x7684;&#x662F;Class&#x6587;&#x4EF6;&#x7684;&#x7248;&#x672C;&#x53F7;&#xFF0C;&#xFF1A;&#x7B2C;5&#x548C;&#x7B2C;6&#x4E2A;&#x5B57;&#x8282;&#x662F;&#x6B21;&#x7248;&#x672C;&#x53F7;&#xFF08;Minor Version&#xFF09;&#xFF0C;&#x7B2C;7&#x548C;&#x7B2C;8&#x4E2A;&#x5B57;&#x8282;&#x662F;<br>&#x4E3B;&#x7248;&#x672C;&#x53F7;&#xFF08;Majer Version&#xFF09;&#x3002;</p>
+<p>Class &#x6587;&#x4EF6;&#x7248;&#x672C;&#x53F7;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">&#x7F16;&#x8BD1;&#x5668;&#x7248;&#x672C;</th>
+<th style="text-align:left">-target&#x53C2;&#x6570;</th>
+<th style="text-align:center">&#x5341;&#x516D;&#x8FDB;&#x5236;&#x7248;&#x672C;&#x53F7;</th>
+<th style="text-align:center">&#x5341;&#x8FDB;&#x5236;&#x7248;&#x672C;&#x53F7;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">JDK1.1.8</td>
+<td style="text-align:left">&#x4E0D;&#x5E26;target&#x53C2;&#x6570;</td>
+<td style="text-align:center">00 03 00 2D</td>
+<td style="text-align:center">45.3</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.2.2</td>
+<td style="text-align:left">&#x4E0D;&#x5E26;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A;-target1.1&#xFF09;</td>
+<td style="text-align:center">00 03 00 2D</td>
+<td style="text-align:center">45.3</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.2.2</td>
+<td style="text-align:left">-target1.2</td>
+<td style="text-align:center">00 00 00 2E</td>
+<td style="text-align:center">46.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.3.1_19</td>
+<td style="text-align:left">&#x4E0D;&#x5E26;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A;-target1.1&#xFF09;</td>
+<td style="text-align:center">00 03 00 2D</td>
+<td style="text-align:center">45.3</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.3.1_19</td>
+<td style="text-align:left">-target1.3</td>
+<td style="text-align:center">00 00 00 2F</td>
+<td style="text-align:center">47.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.4.2_10</td>
+<td style="text-align:left">&#x4E0D;&#x5E26;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A;-target1.2&#xFF09;</td>
+<td style="text-align:center">00 00 00 2E</td>
+<td style="text-align:center">46.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.4.2_10</td>
+<td style="text-align:left">-target1.4</td>
+<td style="text-align:center">00 00 00 30</td>
+<td style="text-align:center">48.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.5.0_11</td>
+<td style="text-align:left">&#x4E0D;&#x5E26;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A;-target1.5&#xFF09;</td>
+<td style="text-align:center">00 00 00 31</td>
+<td style="text-align:center">49.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.5.0_11</td>
+<td style="text-align:left">-target1.4 -source 1.4</td>
+<td style="text-align:center">00 00 00 30</td>
+<td style="text-align:center">48.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.6.0_01</td>
+<td style="text-align:left">&#x4E0D;&#x5E26;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A;-target1.6&#xFF09;</td>
+<td style="text-align:center">00 00 00 32</td>
+<td style="text-align:center">50.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.6.0_01</td>
+<td style="text-align:left">-target1.5</td>
+<td style="text-align:center">00 00 00 31</td>
+<td style="text-align:center">49.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.6.0_01</td>
+<td style="text-align:left">-target1.4 -source 1.4</td>
+<td style="text-align:center">00 00 00 30</td>
+<td style="text-align:center">48.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.7.0</td>
+<td style="text-align:left">&#x4E0D;&#x5E26;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A;-target1.7&#xFF09;</td>
+<td style="text-align:center">00 00 00 33</td>
+<td style="text-align:center">51.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.7.0</td>
+<td style="text-align:left">-target1.6</td>
+<td style="text-align:center">00 00 00 32</td>
+<td style="text-align:center">50.0</td>
+</tr>
+<tr>
+<td style="text-align:center">JDK1.7.0</td>
+<td style="text-align:left">-target1.4 -source 1.4</td>
+<td style="text-align:center">00 00 00 30</td>
+<td style="text-align:center">48.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="&#x5E38;&#x91CF;&#x6C60;"><a href="#&#x5E38;&#x91CF;&#x6C60;" class="headerlink" title="&#x5E38;&#x91CF;&#x6C60;"></a>&#x5E38;&#x91CF;&#x6C60;</h3><p>&#x7D27;&#x63A5;&#x7740;&#x4E3B;&#x6B21;&#x7248;&#x672C;&#x53F7;&#x4E4B;&#x540E;&#x7684;&#x662F;&#x5E38;&#x91CF;&#x6C60;&#x5165;&#x53E3;&#xFF0C;&#x5E38;&#x91CF;&#x6C60;&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;Class&#x6587;&#x4EF6;&#x7684;&#x8D44;&#x6E90;&#x4ED3;&#x5E93;&#x3002;<br>&#x5E38;&#x91CF;&#x6C60;&#x4E2D;&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x5927;&#x7C7B;&#x5E38;&#x91CF;&#xFF1A;&#x5B57;&#x9762;&#x91CF;&#xFF08;Literal&#xFF09;&#x548C;&#x7B26;&#x53F7;&#x5F15;&#x7528;&#xFF08;Symbolic References)<br>&#x5B57;&#x9762;&#x91CF;&#x63A5;&#x8FD1;&#x4E8E;java&#x8BED;&#x8A00;&#x5C42;&#x9762;&#x7684;&#x5E38;&#x91CF;&#x6982;&#x5FF5;&#xFF0C;&#x5982;&#x6587;&#x672C;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x58F0;&#x660E;&#x4E3A;final&#x7684;&#x5E38;&#x91CF;&#x7B49;&#x3002;</p>
+<p>&#x7B26;&#x53F7;&#x5F15;&#x7528;&#x5C5E;&#x4E8E;&#x7F16;&#x8BD1;&#x539F;&#x7406;&#x65B9;&#x9762;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x5305;&#x62EC;&#x4E86;&#x4E09;&#x7C7B;&#x5E38;&#x91CF;&#xFF1A;</p>
+<ul>
+<li>&#x7C7B;&#x548C;&#x63A5;&#x53E3;&#x7684;&#x5168;&#x9650;&#x5B9A;&#x540D;&#xFF08;Fully Qualifide Name&#xFF09;</li>
+<li>&#x5B57;&#x6BB5;&#x7684;&#x540D;&#x79F0;&#x548C;&#x63CF;&#x8FF0;&#x7B26;&#xFF08;Descriper&#xFF09;</li>
+<li>&#x65B9;&#x6CD5;&#x7684;&#x540D;&#x79F0;&#x548C;&#x63CF;&#x8FF0;&#x7B26;</li>
+</ul>
+<p>&#x5E38;&#x91CF;&#x6C60;&#x4E2D;&#x6BCF;&#x4E00;&#x4E2A;&#x5E38;&#x91CF;&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x8868;&#xFF0C;JDK1.7&#x4E4B;&#x524D;&#x6709;11&#x79CD;&#xFF0C;JDK1.7&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x5730;&#x652F;&#x6301;&#x52A8;&#x6001;&#x8BED;&#x8A00;&#x8C03;&#x7528;&#xFF0C;&#x53C8;&#x589E;&#x52A0;&#x4E86;3&#x79CD;&#xFF08;&#x4E0B;&#x8868;&#x540E;3&#x79CD;&#xFF09;<br>&#x8FD9;14&#x79CD;&#x8868;&#x6709;&#x4E00;&#x4E2A;&#x5171;&#x540C;&#x70B9;&#xFF1A;&#x7B2C;&#x4E00;&#x4F4D;&#x662F;&#x4E00;&#x4E2A;u1&#x7C7B;&#x578B;&#x7684;&#x6807;&#x8BC6;&#x4F4D;&#xFF08;tag&#xFF09;&#xFF0C;&#x4EE3;&#x8868;&#x5F53;&#x524D;&#x8FD9;&#x4E2A;&#x5E38;&#x91CF;&#x5C5E;&#x4E8E;&#x54EA;&#x4E2A;&#x7C7B;&#x578B;&#x7684;&#x5E38;&#x91CF;&#x7C7B;&#x578B;&#x3002;</p>
+<p>&#x5E38;&#x91CF;&#x6C60;&#x7684;&#x9879;&#x76EE;&#x7C7B;&#x578B;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">&#x7C7B;&#x578B;</th>
+<th style="text-align:center">&#x6807;&#x5FD7;&#xFF08;tag&#xFF09;</th>
+<th style="text-align:left">&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CONSTANT_Utf8_info</td>
+<td style="text-align:center">1</td>
+<td style="text-align:left">UTF-8&#x7F16;&#x7801;&#x7684;&#x5B57;&#x7B26;&#x4E32;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_Integer_info</td>
+<td style="text-align:center">3</td>
+<td style="text-align:left">&#x6574;&#x578B;&#x5B57;&#x9762;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_Float_info</td>
+<td style="text-align:center">4</td>
+<td style="text-align:left">&#x6D6E;&#x70B9;&#x578B;&#x5B57;&#x9762;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_Long_info</td>
+<td style="text-align:center">5</td>
+<td style="text-align:left">&#x957F;&#x6574;&#x578B;&#x5B57;&#x9762;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_Double_info</td>
+<td style="text-align:center">6</td>
+<td style="text-align:left">&#x53CC;&#x7CBE;&#x5EA6;&#x6D6E;&#x70B9;&#x578B;&#x5B57;&#x9762;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_Class_info</td>
+<td style="text-align:center">7</td>
+<td style="text-align:left">&#x7C7B;&#x6216;&#x63A5;&#x53E3;&#x7684;&#x7B26;&#x53F7;&#x5F15;&#x7528;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_String_info</td>
+<td style="text-align:center">8</td>
+<td style="text-align:left">&#x5B57;&#x7B26;&#x4E32;&#x7C7B;&#x578B;&#x5B57;&#x9762;&#x91CF;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_Fieldref_info</td>
+<td style="text-align:center">9</td>
+<td style="text-align:left">&#x5B57;&#x6BB5;&#x7684;&#x7B26;&#x53F7;&#x5F15;&#x7528;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_Methodref_info</td>
+<td style="text-align:center">10</td>
+<td style="text-align:left">&#x7C7B;&#x4E2D;&#x65B9;&#x6CD5;&#x7684;&#x7B26;&#x53F7;&#x5F15;&#x7528;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_InterfaceMethodref_info</td>
+<td style="text-align:center">11</td>
+<td style="text-align:left">&#x63A5;&#x53E3;&#x4E2D;&#x65B9;&#x6CD5;&#x7684;&#x7B26;&#x53F7;&#x5F15;&#x7528;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_NameAndType_info</td>
+<td style="text-align:center">12</td>
+<td style="text-align:left">&#x5B57;&#x6BB5;&#x6216;&#x65B9;&#x6CD5;&#x7684;&#x90E8;&#x5206;&#x7B26;&#x53F7;&#x5F15;&#x7528;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_MethodHandle_info</td>
+<td style="text-align:center">15</td>
+<td style="text-align:left">&#x8868;&#x793A;&#x65B9;&#x6CD5;&#x53E5;&#x67C4;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_MethodType_info</td>
+<td style="text-align:center">16</td>
+<td style="text-align:left">&#x6807;&#x8BC6;&#x65B9;&#x6CD5;&#x7C7B;&#x578B;</td>
+</tr>
+<tr>
+<td style="text-align:left">CONSTANT_InvokDynamic_info</td>
+<td style="text-align:center">18</td>
+<td style="text-align:left">&#x8868;&#x793A;&#x4E00;&#x4E2A;&#x52A8;&#x6001;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x70B9;</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/10/27/btyeclass/">Class类文件的结构</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">markee</a></p>
+        <p><span>发布时间:</span>2016-10-27, 10:07:36</p>
+        <p><span>最后更新:</span>2016-10-27, 17:34:16</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/10/27/btyeclass/" title="Class类文件的结构">http://code.idea4j.com/2016/10/27/btyeclass/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://code.idea4j.com/2016/10/27/btyeclass/　　作者: markee" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/11/02/servlet3/">
+                    一行配置文件引发的“血案”
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/10/24/jvm1/">
+                    java虚拟机性能监控与故障管理工具
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#无符号数"><span class="toc-number">1.</span> <span class="toc-text">无符号数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表"><span class="toc-number">2.</span> <span class="toc-text">表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#魔数"><span class="toc-number">3.</span> <span class="toc-text">魔数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常量池"><span class="toc-number">4.</span> <span class="toc-text">常量池</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Class类文件的结构　| 码客Mark　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/10/27/btyeclass/" data-title="Class类文件的结构" data-url="http://code.idea4j.com/2016/10/27/btyeclass/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"idea4j"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/11/02/servlet3/" title="上一篇: 一行配置文件引发的“血案”">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/10/24/jvm1/" title="下一篇: java虚拟机性能监控与故障管理工具">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/quickstart/">使用maxwell</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/前后端联调过程/">前后端联调过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/Redis 教程/">Redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/使用maxwell实时同步mysql数据到消息队列(rabbitMQ)/">使用maxwell实时同步mysql数据到消息队列(rabbitMQ)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/20/如何有效的学习/">如何有效的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/15/消息队列/">消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/03/日拱一卒/">日拱一卒</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/30/手写RPC框架/">手写RPC框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/28/编写springboot启动器/">springboot启动器</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/28/问题大全/">问题大全</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/09/Pinpoint/">Pinpoint安装使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/04/RabbitMQ命令行/">RabbitMQ命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/29/docker 命令/">docker 命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/29/docker 容器数据卷/">docker 容器数据卷</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/Dockerfile指令/">docker 容器数据卷</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/Docker搭建zookeeper集群/">Docker搭建zookeeper集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/java语言特性知识点汇总/">java语言特性知识点汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/mst/">面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/21/系统性能核心关注点/">系统性能核心关注点</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/24/Netty权威指南/">Netty权威指南目录抄写</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/17/bat/">BAT后端开发面试108题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/27/MySQL权限分配/">MySQL权限分配</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/19/mysql哪些情况不适合建索引/">mysql哪些情况不适合建索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/xpath/">常用xpath例子</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/24/Netty/">Netty</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/28/MyBatis使用了哪些设计模式，在源码上是如何体现的？/">MyBatis使用了哪些设计模式，在源码上是如何体现的？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/20/yinyangshi/">我的阴阳师之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/20/mylife170320/">mylife170320</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/06/java1/">pacakge-info.java</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/mybatis2/">MyBatis Generator配置文件详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/springbatch/">springbatch</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/26/docker/">Boot2Docker 启动闪退</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/jenkins/">jenkins 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/linux2/">linux 端口查看</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/linux1/">linux下的文件结构，每个文件夹用途</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/svn1/">linux下svn安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/jvm2/">堆分配参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/questions/">开发中遇到的异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/mybatis1/">mybatis generator 配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/jinyan/">jinyan</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/javaapi1/">Java API 学习之ClassLoader</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/05/lua1/">Lua语言积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/sqljl/">sql语句：根据身份证得到省份、生日、性别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/jqiframe/">js与jQuery 获取父窗、子窗的iframe</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/sqlty/">sql优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/usapresident/">美国历任总统，在任年限及所属党派</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/04/xingnen2/">改善性能的几个技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/03/xingnen/">性能概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/servlet3/">一行配置文件引发的“血案”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/btyeclass/">Class类文件的结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/jvm1/">java虚拟机性能监控与故障管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/21/mvnenvironmentseparate/">Maven 打包实现环境配置分离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/18/huibian/">汇编语言(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/17/byyl/">byyl</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/17/shenzhou/">神舟飞船系列</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/mysqlTransaction/">更改MySQL的默认事务隔离级别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/angularjs2d1/">angularjs2d1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/mvnarchetype/">创建自己maven archetype</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/hexo/">hexo + github建站</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/mongodb/">mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/society/">房地产资本主义时代</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/essay0923/">微信小程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/essay0922/">个人小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/21/essay/">随笔</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/24/node15/">Express 框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/node14/">使用 Node 创建 Web 服务器和客户端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/node13/">Node.js GET/POST请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/node12/">Node.js 文件系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/maven/">maven</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/node11/">Node.js 常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/node10/">Node.js 全局对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/17/node9/">Node.js 路由</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node8/">Node.js模块系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node7/">Node.js Stream(流)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/vim/">vim命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node6/">Node.js Buffer(缓冲区)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node5/">Node.js EventEmitter</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node4/">Node.js 事件循环</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node3/">Node.js 回调函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/markdown/">markdown语法积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node2/">NPM 使用介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/14/sublime/">sublime text 3 使用积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/14/node1/">Node.js 创建第一个应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/staruml1/">使用快速生成GoF设计模式的类图与代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/builderpattern/">builderpattern</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/09/DesignPatterns/">设计模式(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/MySQLSP/">MySQL 存储过程的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/storedprodcedure/">存储过程的优缺点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/liyue87/">恭喜张梦雪夺得里约奥运首金</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/nba1/">喜欢的NBA海报</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/mooc10/">10家慕课网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/01/hexouser/">在多台电脑上使用hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/hi-hexo/">hexo</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2020 markee
+
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+                <a href="http://www.miitbeian.gov.cn/">京ICP备16056982号-1</a>
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
