@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="markee" />
+
+
+
+<meta name="description" content="JavaScript &amp;#x8BED;&amp;#x8A00;&amp;#x81EA;&amp;#x8EAB;&amp;#x53EA;&amp;#x6709;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32;&amp;#x6570;&amp;#x636E;&amp;#x7C7B;&amp;#x578B;&amp;#xFF0C;&amp;#x6CA1;&amp;#x6709;&amp;#x4E8C;&amp;#x8FDB;&amp;#x5236;&amp;#x6570;&amp;#x636E;&amp;#x7C7B;&amp;#x578B;&amp;#x30">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js Buffer(缓冲区)">
+<meta property="og:url" content="http://code.idea4j.com/2016/08/16/node6/index.html">
+<meta property="og:site_name" content="码客Mark">
+<meta property="og:description" content="JavaScript &amp;#x8BED;&amp;#x8A00;&amp;#x81EA;&amp;#x8EAB;&amp;#x53EA;&amp;#x6709;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32;&amp;#x6570;&amp;#x636E;&amp;#x7C7B;&amp;#x578B;&amp;#xFF0C;&amp;#x6CA1;&amp;#x6709;&amp;#x4E8C;&amp;#x8FDB;&amp;#x5236;&amp;#x6570;&amp;#x636E;&amp;#x7C7B;&amp;#x578B;&amp;#x30">
+<meta property="og:updated_time" content="2016-09-29T08:03:10.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js Buffer(缓冲区)">
+<meta name="twitter:description" content="JavaScript &amp;#x8BED;&amp;#x8A00;&amp;#x81EA;&amp;#x8EAB;&amp;#x53EA;&amp;#x6709;&amp;#x5B57;&amp;#x7B26;&amp;#x4E32;&amp;#x6570;&amp;#x636E;&amp;#x7C7B;&amp;#x578B;&amp;#xFF0C;&amp;#x6CA1;&amp;#x6709;&amp;#x4E8C;&amp;#x8FDB;&amp;#x5236;&amp;#x6570;&amp;#x636E;&amp;#x7C7B;&amp;#x578B;&amp;#x30">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="码客Mark" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Node.js Buffer(缓冲区) | 码客Mark</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?c160bf5d12f84389ce96c02b54e4575f";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/head.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">markee</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">预测未来最好的方法是在现在创造未来</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:wangjinguang66@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/beijinguang" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/">CI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/">Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GoF/">GoF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua/">Lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NBA/">NBA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pinpoint/">Pinpoint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stored-Procedure/">Stored Procedure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Transaction/">Transaction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angularjs2/">angularjs2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iframe/">iframe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maxwell/">maxwell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-batch/">spring batch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/starUML/">starUML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime-text/">sublime text</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xpath/">xpath</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习/">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常/">异常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信小程序/">微信小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/游戏/">游戏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识/">知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/社会/">社会</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神舟飞船/">神舟飞船</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统性能/">系统性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/索引/">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网站/">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/里约/">里约</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链路追踪/">链路追踪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题/">问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">笨鸟也飞</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">markee</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/head.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">markee</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">预测未来最好的方法是在现在创造未来</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:wangjinguang66@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/beijinguang" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-node6" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/16/node6/" class="article-date">
+      <time datetime="2016-08-16T06:14:45.000Z" itemprop="datePublished">2016-08-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Node.js Buffer(缓冲区)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/node/">node</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>JavaScript &#x8BED;&#x8A00;&#x81EA;&#x8EAB;&#x53EA;&#x6709;&#x5B57;&#x7B26;&#x4E32;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF0C;&#x6CA1;&#x6709;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x3002;<br>&#x4F46;&#x5728;&#x5904;&#x7406;&#x50CF;TCP&#x6D41;&#x6216;&#x6587;&#x4EF6;&#x6D41;&#x65F6;&#xFF0C;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x5230;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x3002;&#x56E0;&#x6B64;&#x5728; Node.js&#x4E2D;&#xFF0C;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A; Buffer &#x7C7B;&#xFF0C;&#x8BE5;&#x7C7B;&#x7528;&#x6765;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x4E13;&#x95E8;&#x5B58;&#x653E;<br>&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#x7684;&#x7F13;&#x5B58;&#x533A;&#x3002;<br><a id="more"></a><br>&#x5728; Node.js &#x4E2D;&#xFF0C;Buffer &#x7C7B;&#x662F;&#x968F; Node &#x5185;&#x6838;&#x4E00;&#x8D77;&#x53D1;&#x5E03;&#x7684;&#x6838;&#x5FC3;&#x5E93;&#x3002;Buffer &#x5E93;&#x4E3A; Node.js &#x5E26;&#x6765;&#x4E86;&#x4E00;&#x79CD;&#x5B58;&#x50A8;&#x539F;&#x59CB;&#x6570;&#x636E;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;<br>Node.js &#x5904;&#x7406;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x636E;&#xFF0C;&#x6BCF;&#x5F53;&#x9700;&#x8981;&#x5728; Node.js &#x4E2D;&#x5904;&#x7406;I/O&#x64CD;&#x4F5C;&#x4E2D;&#x79FB;&#x52A8;&#x7684;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x5C31;&#x6709;&#x53EF;&#x80FD;&#x4F7F;&#x7528; Buffer &#x5E93;&#x3002;&#x539F;&#x59CB;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5728; Buffer<br>&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x4E2D;&#x3002;&#x4E00;&#x4E2A; Buffer &#x7C7B;&#x4F3C;&#x4E8E;&#x4E00;&#x4E2A;&#x6574;&#x6570;&#x6570;&#x7EC4;&#xFF0C;&#x4F46;&#x5B83;&#x5BF9;&#x5E94;&#x4E8E; V8 &#x5806;&#x5185;&#x5B58;&#x4E4B;&#x5916;&#x7684;&#x4E00;&#x5757;&#x539F;&#x59CB;&#x5185;&#x5B58;&#x3002;</p>
+<h3 id="&#x521B;&#x5EFA;Buffer-&#x7C7B;"><a href="#&#x521B;&#x5EFA;Buffer-&#x7C7B;" class="headerlink" title="&#x521B;&#x5EFA;Buffer &#x7C7B;"></a>&#x521B;&#x5EFA;Buffer &#x7C7B;</h3><p>Node Buffer &#x7C7B;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x591A;&#x79CD;&#x65B9;&#x5F0F;&#x6765;&#x521B;&#x5EFA;&#x3002;</p>
+<ol>
+<li><p>&#x521B;&#x5EFA;&#x957F;&#x5EA6;&#x4E3A; 10 &#x5B57;&#x8282;&#x7684; Buffer &#x5B9E;&#x4F8B;&#xFF1A;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="number">10</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>&#x901A;&#x8FC7;&#x7ED9;&#x5B9A;&#x7684;&#x6570;&#x7EC4;&#x521B;&#x5EFA; Buffer &#x5B9E;&#x4F8B;&#xFF1A;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>]);</div></pre></td></tr></table></figure>
+</li>
+<li><p>&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x6765;&#x521B;&#x5EFA; Buffer &#x5B9E;&#x4F8B;&#xFF1A;</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">&quot;www.baidu.com&quot;</span>, <span class="string">&quot;utf-8&quot;</span>);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>utf-8 &#x662F;&#x9ED8;&#x8BA4;&#x7684;&#x7F16;&#x7801;&#x65B9;&#x5F0F;&#xFF0C;&#x6B64;&#x5916;&#x5B83;&#x540C;&#x6837;&#x652F;&#x6301;&#x4EE5;&#x4E0B;&#x7F16;&#x7801;&#xFF1A;&#x201D;ascii&#x201D;, &#x201C;utf8&#x201D;, &#x201C;utf16le&#x201D;, &#x201C;ucs2&#x201D;, &#x201C;base64&#x201D; &#x548C; &#x201C;hex&#x201D;&#x3002;</p>
+<h3 id="&#x5199;&#x5165;&#x7F13;&#x51B2;&#x533A;"><a href="#&#x5199;&#x5165;&#x7F13;&#x51B2;&#x533A;" class="headerlink" title="&#x5199;&#x5165;&#x7F13;&#x51B2;&#x533A;"></a>&#x5199;&#x5165;&#x7F13;&#x51B2;&#x533A;</h3><h4 id="&#x8BED;&#x6CD5;"><a href="#&#x8BED;&#x6CD5;" class="headerlink" title="&#x8BED;&#x6CD5;"></a>&#x8BED;&#x6CD5;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.write(string[, offset[, length]][, encoding])</div></pre></td></tr></table></figure>
+<h4 id="&#x53C2;&#x6570;"><a href="#&#x53C2;&#x6570;" class="headerlink" title="&#x53C2;&#x6570;"></a>&#x53C2;&#x6570;</h4><ul>
+<li>string &#x5199;&#x5165;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x5B57;&#x7B26;&#x4E32;</li>
+<li>offset &#x7F13;&#x51B2;&#x533A;&#x5F00;&#x59CB;&#x5199;&#x5165;&#x7684;&#x7D22;&#x5F15;&#x503C;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; 0 </li>
+<li>length &#x5199;&#x5165;&#x7684;&#x5B57;&#x8282;&#x6570;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; buffer.length</li>
+<li>encoding &#x4F7F;&#x7528;&#x7684;&#x7F16;&#x7801;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A; &#x2018;utf8&#x2019; &#x3002;</li>
+</ul>
+<h4 id="&#x8FD4;&#x56DE;&#x503C;"><a href="#&#x8FD4;&#x56DE;&#x503C;" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;"></a>&#x8FD4;&#x56DE;&#x503C;</h4><p>&#x8FD4;&#x56DE;&#x5B9E;&#x9645;&#x5199;&#x5165;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x5982;&#x679C; buffer &#x7A7A;&#x95F4;&#x4E0D;&#x8DB3;&#xFF0C; &#x5219;&#x53EA;&#x4F1A;&#x5199;&#x5165;&#x90E8;&#x5206;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<h4 id="&#x5B9E;&#x4F8B;"><a href="#&#x5B9E;&#x4F8B;" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">buf = <span class="keyword">new</span> Buffer(<span class="number">256</span>);</div><div class="line">len =  buf.write(<span class="string">&quot;www.baidu.com&quot;</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">&quot;&#x5199;&#x5165;&#x7684;&#x5B57;&#x8282;&#x6570;:&quot;</span>+len);<span class="comment">//13</span></div></pre></td></tr></table></figure>
+<h3 id="&#x4ECE;&#x7F13;&#x51B2;&#x533A;&#x8BFB;&#x53D6;&#x6570;&#x636E;"><a href="#&#x4ECE;&#x7F13;&#x51B2;&#x533A;&#x8BFB;&#x53D6;&#x6570;&#x636E;" class="headerlink" title="&#x4ECE;&#x7F13;&#x51B2;&#x533A;&#x8BFB;&#x53D6;&#x6570;&#x636E;"></a>&#x4ECE;&#x7F13;&#x51B2;&#x533A;&#x8BFB;&#x53D6;&#x6570;&#x636E;</h3><h4 id="&#x8BED;&#x6CD5;-1"><a href="#&#x8BED;&#x6CD5;-1" class="headerlink" title="&#x8BED;&#x6CD5;"></a>&#x8BED;&#x6CD5;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toString([encoding[, start[, end]]])</div></pre></td></tr></table></figure>
+<h4 id="&#x53C2;&#x6570;-1"><a href="#&#x53C2;&#x6570;-1" class="headerlink" title="&#x53C2;&#x6570;"></a>&#x53C2;&#x6570;</h4><ul>
+<li>encoding - &#x4F7F;&#x7528;&#x7684;&#x7F16;&#x7801;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A; &#x2018;utf8&#x2019; &#x3002;</li>
+<li>start - &#x6307;&#x5B9A;&#x5F00;&#x59CB;&#x8BFB;&#x53D6;&#x7684;&#x7D22;&#x5F15;&#x4F4D;&#x7F6E;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; 0&#x3002;</li>
+<li>end - &#x7ED3;&#x675F;&#x4F4D;&#x7F6E;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x672B;&#x5C3E;&#x3002;<h4 id="&#x8FD4;&#x56DE;&#x503C;-1"><a href="#&#x8FD4;&#x56DE;&#x503C;-1" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;"></a>&#x8FD4;&#x56DE;&#x503C;</h4>&#x89E3;&#x7801;&#x7F13;&#x51B2;&#x533A;&#x6570;&#x636E;&#x5E76;&#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x7684;&#x7F16;&#x7801;&#x8FD4;&#x56DE;&#x5B57;&#x7B26;&#x4E32;&#x3002;<h4 id="&#x5B9E;&#x4F8B;-1"><a href="#&#x5B9E;&#x4F8B;-1" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">buf = <span class="keyword">new</span> Buffer(<span class="number">26</span>);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span> ; i++){</div><div class="line">    buf[i] = i + <span class="number">97</span>;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(buf.toString(<span class="string">&apos;ascii&apos;</span>));<span class="comment">//abcdefghijklmnopqrstuvwxyz</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString(<span class="string">&apos;ascii&apos;</span>,<span class="number">0</span>,<span class="number">5</span>));<span class="comment">//abcde</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString(<span class="string">&apos;utf8&apos;</span>,<span class="number">0</span>,<span class="number">5</span>));<span class="comment">//abcde</span></div><div class="line"><span class="built_in">console</span>.log(buf.toString(<span class="literal">undefined</span>,<span class="number">0</span>,<span class="number">5</span>));<span class="comment">//abcde</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="&#x5C06;-Buffer-&#x8F6C;&#x6362;&#x4E3A;-JSON-&#x5BF9;&#x8C61;"><a href="#&#x5C06;-Buffer-&#x8F6C;&#x6362;&#x4E3A;-JSON-&#x5BF9;&#x8C61;" class="headerlink" title="&#x5C06; Buffer &#x8F6C;&#x6362;&#x4E3A; JSON &#x5BF9;&#x8C61;"></a>&#x5C06; Buffer &#x8F6C;&#x6362;&#x4E3A; JSON &#x5BF9;&#x8C61;</h3><h4 id="&#x8BED;&#x6CD5;-2"><a href="#&#x8BED;&#x6CD5;-2" class="headerlink" title="&#x8BED;&#x6CD5;"></a>&#x8BED;&#x6CD5;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.toJSON()</div></pre></td></tr></table></figure>
+<h4 id="&#x8FD4;&#x56DE;&#x503C;-2"><a href="#&#x8FD4;&#x56DE;&#x503C;-2" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;"></a>&#x8FD4;&#x56DE;&#x503C;</h4><p>&#x8FD4;&#x56DE; JSON &#x5BF9;&#x8C61;&#x3002;</p>
+<h4 id="&#x5B9E;&#x4F8B;-2"><a href="#&#x5B9E;&#x4F8B;-2" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf = <span class="keyword">new</span> Buffer(<span class="string">&apos;www.baidu.com&apos;</span>);</div><div class="line"><span class="keyword">var</span> json = buf.toJSON(buf);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(json);</div></pre></td></tr></table></figure>
+<p>&#x7ED3;&#x679C;&#xFF1A;<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">{ type: &apos;Buffer&apos;,</div><div class="line">  data: [ 119, 119, 119, 46, 98, 97, 105, 100, 117, 46, 99, 111, 109 ] }</div></pre></td></tr></table></figure></p>
+<h3 id="&#x7F13;&#x51B2;&#x533A;&#x5408;&#x5E76;"><a href="#&#x7F13;&#x51B2;&#x533A;&#x5408;&#x5E76;" class="headerlink" title="&#x7F13;&#x51B2;&#x533A;&#x5408;&#x5E76;"></a>&#x7F13;&#x51B2;&#x533A;&#x5408;&#x5E76;</h3><h4 id="&#x8BED;&#x6CD5;-3"><a href="#&#x8BED;&#x6CD5;-3" class="headerlink" title="&#x8BED;&#x6CD5;"></a>&#x8BED;&#x6CD5;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.concat(list[, totalLength])</div></pre></td></tr></table></figure>
+<h4 id="&#x53C2;&#x6570;-2"><a href="#&#x53C2;&#x6570;-2" class="headerlink" title="&#x53C2;&#x6570;"></a>&#x53C2;&#x6570;</h4><ul>
+<li>list - &#x7528;&#x4E8E;&#x5408;&#x5E76;&#x7684; Buffer &#x5BF9;&#x8C61;&#x6570;&#x7EC4;&#x5217;&#x8868;&#x3002;</li>
+<li>totalLength - &#x6307;&#x5B9A;&#x5408;&#x5E76;&#x540E;Buffer&#x5BF9;&#x8C61;&#x7684;&#x603B;&#x957F;&#x5EA6;&#x3002;<h4 id="&#x8FD4;&#x56DE;&#x503C;-3"><a href="#&#x8FD4;&#x56DE;&#x503C;-3" class="headerlink" title="&#x8FD4;&#x56DE;&#x503C;"></a>&#x8FD4;&#x56DE;&#x503C;</h4>&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x591A;&#x4E2A;&#x6210;&#x5458;&#x5408;&#x5E76;&#x7684;&#x65B0; Buffer &#x5BF9;&#x8C61;&#x3002;<h4 id="&#x5B9E;&#x4F8B;-3"><a href="#&#x5B9E;&#x4F8B;-3" class="headerlink" title="&#x5B9E;&#x4F8B;"></a>&#x5B9E;&#x4F8B;</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buffer1 = <span class="keyword">new</span> Buffer(<span class="string">&apos;&#x767E;&#x5EA6;&apos;</span>);</div><div class="line"><span class="keyword">var</span> buffer2 = <span class="keyword">new</span> Buffer(<span class="string">&apos;www.baidu.com&apos;</span>);</div><div class="line"><span class="keyword">var</span> buffer3 = Buffer.concat([buffer1,buffer2]);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">&quot;buffer3 &#x5185;&#x5BB9;: &quot;</span> + buffer3.toString());<span class="comment">//buffer3 &#x5185;&#x5BB9;: &#x767E;&#x5EA6;www.baidu.com</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/16/node6/">Node.js Buffer(缓冲区)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">markee</a></p>
+        <p><span>发布时间:</span>2016-08-16, 14:14:45</p>
+        <p><span>最后更新:</span>2016-09-29, 16:03:10</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/16/node6/" title="Node.js Buffer(缓冲区)">http://code.idea4j.com/2016/08/16/node6/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://code.idea4j.com/2016/08/16/node6/　　作者: markee" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/08/16/vim/">
+                    vim命令
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/15/node5/">
+                    Node.js EventEmitter
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建Buffer-类"><span class="toc-number">1.</span> <span class="toc-text">创建Buffer 类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写入缓冲区"><span class="toc-number">2.</span> <span class="toc-text">写入缓冲区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法"><span class="toc-number">2.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参数"><span class="toc-number">2.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#返回值"><span class="toc-number">2.3.</span> <span class="toc-text">返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实例"><span class="toc-number">2.4.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从缓冲区读取数据"><span class="toc-number">3.</span> <span class="toc-text">从缓冲区读取数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法-1"><span class="toc-number">3.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参数-1"><span class="toc-number">3.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#返回值-1"><span class="toc-number">3.3.</span> <span class="toc-text">返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实例-1"><span class="toc-number">3.4.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将-Buffer-转换为-JSON-对象"><span class="toc-number">4.</span> <span class="toc-text">将 Buffer 转换为 JSON 对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法-2"><span class="toc-number">4.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#返回值-2"><span class="toc-number">4.2.</span> <span class="toc-text">返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实例-2"><span class="toc-number">4.3.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓冲区合并"><span class="toc-number">5.</span> <span class="toc-text">缓冲区合并</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语法-3"><span class="toc-number">5.1.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参数-2"><span class="toc-number">5.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#返回值-3"><span class="toc-number">5.3.</span> <span class="toc-text">返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实例-3"><span class="toc-number">5.4.</span> <span class="toc-text">实例</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Node.js Buffer(缓冲区)　| 码客Mark　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/08/16/node6/" data-title="Node.js Buffer(缓冲区)" data-url="http://code.idea4j.com/2016/08/16/node6/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"idea4j"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/08/16/vim/" title="上一篇: vim命令">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/15/node5/" title="下一篇: Node.js EventEmitter">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/quickstart/">使用maxwell</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/前后端联调过程/">前后端联调过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/Redis 教程/">Redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/使用maxwell实时同步mysql数据到消息队列(rabbitMQ)/">使用maxwell实时同步mysql数据到消息队列(rabbitMQ)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/20/如何有效的学习/">如何有效的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/15/消息队列/">消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/03/日拱一卒/">日拱一卒</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/30/手写RPC框架/">手写RPC框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/28/编写springboot启动器/">springboot启动器</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/28/问题大全/">问题大全</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/09/Pinpoint/">Pinpoint安装使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/04/RabbitMQ命令行/">RabbitMQ命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/29/docker 命令/">docker 命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/29/docker 容器数据卷/">docker 容器数据卷</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/Dockerfile指令/">docker 容器数据卷</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/Docker搭建zookeeper集群/">Docker搭建zookeeper集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/java语言特性知识点汇总/">java语言特性知识点汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/mst/">面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/21/系统性能核心关注点/">系统性能核心关注点</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/24/Netty权威指南/">Netty权威指南目录抄写</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/17/bat/">BAT后端开发面试108题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/27/MySQL权限分配/">MySQL权限分配</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/19/mysql哪些情况不适合建索引/">mysql哪些情况不适合建索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/xpath/">常用xpath例子</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/24/Netty/">Netty</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/28/MyBatis使用了哪些设计模式，在源码上是如何体现的？/">MyBatis使用了哪些设计模式，在源码上是如何体现的？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/20/yinyangshi/">我的阴阳师之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/20/mylife170320/">mylife170320</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/06/java1/">pacakge-info.java</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/mybatis2/">MyBatis Generator配置文件详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/springbatch/">springbatch</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/26/docker/">Boot2Docker 启动闪退</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/jenkins/">jenkins 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/linux2/">linux 端口查看</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/linux1/">linux下的文件结构，每个文件夹用途</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/svn1/">linux下svn安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/jvm2/">堆分配参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/questions/">开发中遇到的异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/mybatis1/">mybatis generator 配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/jinyan/">jinyan</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/javaapi1/">Java API 学习之ClassLoader</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/05/lua1/">Lua语言积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/sqljl/">sql语句：根据身份证得到省份、生日、性别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/jqiframe/">js与jQuery 获取父窗、子窗的iframe</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/sqlty/">sql优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/usapresident/">美国历任总统，在任年限及所属党派</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/04/xingnen2/">改善性能的几个技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/03/xingnen/">性能概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/servlet3/">一行配置文件引发的“血案”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/btyeclass/">Class类文件的结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/jvm1/">java虚拟机性能监控与故障管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/21/mvnenvironmentseparate/">Maven 打包实现环境配置分离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/18/huibian/">汇编语言(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/17/byyl/">byyl</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/17/shenzhou/">神舟飞船系列</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/mysqlTransaction/">更改MySQL的默认事务隔离级别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/angularjs2d1/">angularjs2d1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/mvnarchetype/">创建自己maven archetype</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/hexo/">hexo + github建站</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/mongodb/">mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/society/">房地产资本主义时代</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/essay0923/">微信小程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/essay0922/">个人小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/21/essay/">随笔</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/24/node15/">Express 框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/node14/">使用 Node 创建 Web 服务器和客户端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/node13/">Node.js GET/POST请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/node12/">Node.js 文件系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/maven/">maven</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/node11/">Node.js 常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/node10/">Node.js 全局对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/17/node9/">Node.js 路由</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node8/">Node.js模块系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node7/">Node.js Stream(流)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/vim/">vim命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node6/">Node.js Buffer(缓冲区)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node5/">Node.js EventEmitter</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node4/">Node.js 事件循环</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node3/">Node.js 回调函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/markdown/">markdown语法积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node2/">NPM 使用介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/14/sublime/">sublime text 3 使用积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/14/node1/">Node.js 创建第一个应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/staruml1/">使用快速生成GoF设计模式的类图与代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/builderpattern/">builderpattern</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/09/DesignPatterns/">设计模式(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/MySQLSP/">MySQL 存储过程的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/storedprodcedure/">存储过程的优缺点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/liyue87/">恭喜张梦雪夺得里约奥运首金</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/nba1/">喜欢的NBA海报</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/mooc10/">10家慕课网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/01/hexouser/">在多台电脑上使用hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/hi-hexo/">hexo</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2020 markee
+
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+                <a href="http://www.miitbeian.gov.cn/">京ICP备16056982号-1</a>
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

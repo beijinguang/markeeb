@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="markee" />
+
+
+
+<meta name="description" content="&amp;#x5B58;&amp;#x50A8;&amp;#x8FC7;&amp;#x7A0B;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 存储过程的使用">
+<meta property="og:url" content="http://code.idea4j.com/2016/08/08/MySQLSP/index.html">
+<meta property="og:site_name" content="码客Mark">
+<meta property="og:description" content="&amp;#x5B58;&amp;#x50A8;&amp;#x8FC7;&amp;#x7A0B;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;">
+<meta property="og:updated_time" content="2016-09-26T02:40:51.952Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 存储过程的使用">
+<meta name="twitter:description" content="&amp;#x5B58;&amp;#x50A8;&amp;#x8FC7;&amp;#x7A0B;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="码客Mark" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>MySQL 存储过程的使用 | 码客Mark</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?c160bf5d12f84389ce96c02b54e4575f";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/head.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">markee</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">预测未来最好的方法是在现在创造未来</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="true" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:wangjinguang66@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/beijinguang" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CI/">CI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Express/">Express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GoF/">GoF</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lua/">Lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybatis/">Mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NBA/">NBA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Netty/">Netty</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pinpoint/">Pinpoint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RPC/">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stored-Procedure/">Stored Procedure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Transaction/">Transaction</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/angularjs2/">angularjs2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iframe/">iframe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/">jvm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maxwell/">maxwell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-batch/">spring batch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/starUML/">starUML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime-text/">sublime text</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xpath/">xpath</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zookeeper/">zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/其他/">其他</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习/">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作/">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/异常/">异常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信小程序/">微信小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编语言/">汇编语言</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/消息队列/">消息队列</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/游戏/">游戏</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识/">知识</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/社会/">社会</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/神舟飞船/">神舟飞船</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统性能/">系统性能</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/索引/">索引</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编译原理/">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网站/">网站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/里约/">里约</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/链路追踪/">链路追踪</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/问题/">问题</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试题/">面试题</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">笨鸟也飞</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">markee</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/head.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">markee</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">预测未来最好的方法是在现在创造未来</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:wangjinguang66@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/beijinguang" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-MySQLSP" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/08/MySQLSP/" class="article-date">
+      <time datetime="2016-08-08T09:27:18.000Z" itemprop="datePublished">2016-08-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL 存储过程的使用
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/database/">database</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Stored-Procedure/">Stored Procedure</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x4F7F;&#x7528;<br><a id="more"></a></p>
+<h2 id="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x521B;&#x5EFA;"><a href="#MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x521B;&#x5EFA;" class="headerlink" title="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x521B;&#x5EFA;"></a>MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x521B;&#x5EFA;</h2><h3 id="&#x683C;&#x5F0F;"><a href="#&#x683C;&#x5F0F;" class="headerlink" title="&#x683C;&#x5F0F;"></a>&#x683C;&#x5F0F;</h3><p>  <strong><em>CREATE PROCEDURE &#x8FC7;&#x7A0B;&#x540D; ([&#x8FC7;&#x7A0B;&#x53C2;&#x6570;[,&#x2026;]])[&#x7279;&#x6027; &#x2026;] &#x8FC7;&#x7A0B;&#x4F53;</em></strong></p>
+<h3 id="&#x58F0;&#x660E;&#x5206;&#x9694;&#x7B26;"><a href="#&#x58F0;&#x660E;&#x5206;&#x9694;&#x7B26;" class="headerlink" title="&#x58F0;&#x660E;&#x5206;&#x9694;&#x7B26;"></a>&#x58F0;&#x660E;&#x5206;&#x9694;&#x7B26;</h3><p>DELIMITER //&#x548C;DELIMITER ;<br>    &#x56E0;&#x4E3A;MySQL&#x9ED8;&#x8BA4;&#x4EE5;&#x201D;;&#x201D;&#x4E3A;&#x5206;&#x9694;&#x7B26;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x58F0;&#x660E;&#x5206;&#x5272;&#x7B26;&#xFF0C;&#x90A3;&#x4E48;&#x7F16;&#x8BD1;&#x5668;&#x4F1A;&#x628A;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x5F53;&#x6210;SQL&#x8BED;&#x53E5;&#x8FDB;&#x884C;&#x5904;&#x7406;&#xFF0C;<br>&#x5219;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x7F16;&#x8BD1;&#x8FC7;&#x7A0B;&#x4F1A;&#x62A5;&#x9519;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x4E8B;&#x5148;&#x7528;DELIMITER&#x5173;&#x952E;&#x5B57;&#x7533;&#x660E;&#x5F53;&#x524D;&#x6BB5;&#x5206;&#x9694;&#x7B26;&#xFF0C;&#x8FD9;&#x6837;MySQL&#x624D;&#x4F1A;&#x5C06;&#x201D;;&#x201D;&#x5F53;&#x505A;&#x5B58;&#x50A8;<br>&#x8FC7;&#x7A0B;&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x4E0D;&#x4F1A;&#x6267;&#x884C;&#x8FD9;&#x4E9B;&#x4EE3;&#x7801;&#xFF0C;&#x7528;&#x5B8C;&#x4E86;&#x4E4B;&#x540E;&#x8981;&#x628A;&#x5206;&#x9694;&#x7B26;&#x8FD8;&#x539F;&#x3002;</p>
+<h3 id="&#x53C2;&#x6570;"><a href="#&#x53C2;&#x6570;" class="headerlink" title="&#x53C2;&#x6570;"></a>&#x53C2;&#x6570;</h3><p>MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x53C2;&#x6570;&#x7528;&#x5728;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x5171;&#x6709;&#x4E09;&#x79CD;&#x53C2;&#x6570;&#x7C7B;&#x578B;,IN,OUT,INOUT,&#x5F62;&#x5F0F;&#x5982;&#xFF1A;<br><strong><em>CREATE PROCEDURE([[IN |OUT |INOUT ] &#x53C2;&#x6570;&#x540D; &#x6570;&#x636E;&#x7C7B;&#x5F62;&#x2026;])</em></strong><br>IN &#x8F93;&#x5165;&#x53C2;&#x6570;:&#x8868;&#x793A;&#x8BE5;&#x53C2;&#x6570;&#x7684;&#x503C;&#x5FC5;&#x987B;&#x5728;&#x8C03;&#x7528;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x65F6;&#x6307;&#x5B9A;&#xFF0C;&#x5728;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x4E2D;&#x4FEE;&#x6539;&#x8BE5;&#x53C2;&#x6570;&#x7684;&#x503C;&#x4E0D;&#x80FD;&#x88AB;&#x8FD4;&#x56DE;&#xFF0C;&#x4E3A;&#x9ED8;&#x8BA4;&#x503C;<br>OUT &#x8F93;&#x51FA;&#x53C2;&#x6570;:&#x8BE5;&#x503C;&#x53EF;&#x5728;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x5185;&#x90E8;&#x88AB;&#x6539;&#x53D8;&#xFF0C;&#x5E76;&#x53EF;&#x8FD4;&#x56DE;<br>INOUT &#x8F93;&#x5165;&#x8F93;&#x51FA;&#x53C2;&#x6570;:&#x8C03;&#x7528;&#x65F6;&#x6307;&#x5B9A;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x88AB;&#x6539;&#x53D8;&#x548C;&#x8FD4;&#x56DE;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">DELIMITER //</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> demo_in_parameter(<span class="keyword">IN</span> p_in <span class="built_in">INT</span>)</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">UPDATE</span> sys_user <span class="keyword">SET</span> login_name=<span class="string">&apos;test&apos;</span> <span class="keyword">WHERE</span> <span class="keyword">id</span> = p_in ;</div><div class="line"><span class="keyword">END</span> ;</div><div class="line">//</div><div class="line">DELIMITER ;</div><div class="line"></div><div class="line"><span class="keyword">CALL</span> demo_in_parameter(<span class="number">1</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">DELIMITER //</div><div class="line"> <span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> demo_out_parameter(<span class="keyword">OUT</span> s <span class="built_in">INT</span>)  </div><div class="line"> <span class="keyword">BEGIN</span> </div><div class="line"> <span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">INTO</span> s <span class="keyword">FROM</span> sys_user;  </div><div class="line"> <span class="keyword">END</span> </div><div class="line"> //</div><div class="line"> DELIMITER ;</div><div class="line"> </div><div class="line"> <span class="keyword">SET</span> @p_out=<span class="number">1</span>;</div><div class="line"> <span class="keyword">CALL</span> demo_out_parameter(@p_out);</div><div class="line"> <span class="keyword">SELECT</span> @p_out;</div></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">DELIMITER //</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> demo_inout_paramter(INOUT p_inout <span class="built_in">INT</span>)</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">SELECT</span> p_inout;</div><div class="line"><span class="keyword">SET</span> p_inout=<span class="number">2</span>;</div><div class="line"><span class="keyword">SELECT</span> p_inout;</div><div class="line"><span class="keyword">END</span></div><div class="line">//</div><div class="line">DELIMITER ;</div><div class="line"></div><div class="line"><span class="keyword">SET</span> @p_inout=<span class="number">1</span>;</div><div class="line"><span class="keyword">CALL</span> demo_inout_paramter(@p_inout);</div><div class="line"><span class="keyword">SELECT</span> @p_inout</div></pre></td></tr></table></figure>
+<h3 id="&#x53D8;&#x91CF;"><a href="#&#x53D8;&#x91CF;" class="headerlink" title="&#x53D8;&#x91CF;"></a>&#x53D8;&#x91CF;</h3><p>&#x2160;. &#x53D8;&#x91CF;&#x5B9A;&#x4E49;<br><strong><em>DECLARE variable_name [,variable_name&#x2026;] datatype [DEFAULT value];</em></strong><br>&#x5176;&#x4E2D;&#xFF0C;datatype&#x4E3A;MySQL&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF0C;&#x5982;:int, float, date, varchar(length)<br>&#x4F8B;&#x5982;:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DECLARE</span> l_int <span class="built_in">int</span> <span class="keyword">unsigned</span> <span class="keyword">default</span> <span class="number">4000000</span>;  </div><div class="line"><span class="keyword">DECLARE</span> l_numeric <span class="built_in">number</span>(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="number">9.95</span>;  </div><div class="line"><span class="keyword">DECLARE</span> l_date <span class="built_in">date</span> <span class="keyword">DEFAULT</span> <span class="string">&apos;1999-12-31&apos;</span>;  </div><div class="line"><span class="keyword">DECLARE</span> l_datetime datetime <span class="keyword">DEFAULT</span> <span class="string">&apos;1999-12-31 23:59:59&apos;</span>;  </div><div class="line"><span class="keyword">DECLARE</span> l_varchar <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="string">&apos;This will not be padded&apos;</span>;</div></pre></td></tr></table></figure></p>
+<p>&#x2161;. &#x53D8;&#x91CF;&#x8D4B;&#x503C;<br><strong><em>SET &#x53D8;&#x91CF;&#x540D; = &#x8868;&#x8FBE;&#x5F0F;&#x503C; [,variable_name = expression &#x2026;]</em></strong></p>
+<p>&#x2162;. &#x7528;&#x6237;&#x53D8;&#x91CF;<br>&#x2460;&#x5728;MySQL&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;&#x7528;&#x6237;&#x53D8;&#x91CF;<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">INTO</span> @countuser <span class="keyword">FROM</span> sys_user; <span class="comment">-- &#x5C06;count(*) &#x7684;&#x503C;&#x8D4B;&#x7ED9; @countuser</span></div><div class="line"><span class="keyword">SELECT</span> @countuser;</div><div class="line"></div><div class="line"><span class="keyword">set</span> @greeting = <span class="string">&quot;hello&quot;</span>;</div><div class="line"><span class="keyword">select</span> @greeting; <span class="comment">-- hello</span></div><div class="line"></div><div class="line"><span class="keyword">SET</span> @<span class="keyword">result</span> = <span class="number">25</span>*<span class="number">4</span>;</div><div class="line"><span class="keyword">select</span> @<span class="keyword">result</span>; <span class="comment">-- 100</span></div></pre></td></tr></table></figure></p>
+<p>&#x2461;&#x5728;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x4E2D;&#x4F7F;&#x7528;&#x7528;&#x6237;&#x53D8;&#x91CF;<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> GreetWorld() <span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(@greeting,<span class="string">&apos; World&apos;</span>);  </div><div class="line"><span class="keyword">SET</span> @greeting=<span class="string">&apos;Hello&apos;</span>;  </div><div class="line"><span class="keyword">CALL</span> GreetWorld(); <span class="comment">--Hello World</span></div></pre></td></tr></table></figure></p>
+<p>&#x2462;&#x5728;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x95F4;&#x4F20;&#x9012;&#x5168;&#x5C40;&#x8303;&#x56F4;&#x7684;&#x7528;&#x6237;&#x53D8;&#x91CF;<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> p1()   <span class="keyword">SET</span> @last_procedure=<span class="string">&apos;p1&apos;</span>;  </div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> p2() <span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(<span class="string">&apos;Last procedure was &apos;</span>,@last_procedure);  </div><div class="line"><span class="keyword">CALL</span> p1( );  </div><div class="line"><span class="keyword">CALL</span> p2( ); <span class="comment">-- Last procedure was p1</span></div></pre></td></tr></table></figure></p>
+<p>&#x6CE8;&#x610F;:<br>&#x7528;&#x6237;&#x53D8;&#x91CF;&#x540D;&#x4E00;&#x822C;&#x4EE5;@&#x5F00;&#x5934;,&#x6EE5;&#x7528;&#x7528;&#x6237;&#x53D8;&#x91CF;&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x96BE;&#x4EE5;&#x7406;&#x89E3;&#x53CA;&#x7BA1;&#x7406;</p>
+<h2 id="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x67E5;&#x8BE2;&#x3001;&#x5220;&#x9664;"><a href="#MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x67E5;&#x8BE2;&#x3001;&#x5220;&#x9664;" class="headerlink" title="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x67E5;&#x8BE2;&#x3001;&#x5220;&#x9664;"></a>MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x67E5;&#x8BE2;&#x3001;&#x5220;&#x9664;</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> mysql.proc <span class="keyword">where</span> db=<span class="string">&apos;&#x6570;&#x636E;&#x5E93;&#x540D;&apos;</span>;</div><div class="line"><span class="keyword">select</span> routine_name <span class="keyword">from</span> information_schema.routines <span class="keyword">where</span> routine_schema=<span class="string">&apos;&#x6570;&#x636E;&#x5E93;&#x540D;&apos;</span>;</div><div class="line"><span class="keyword">show</span> <span class="keyword">procedure</span> <span class="keyword">status</span> <span class="keyword">where</span> db=<span class="string">&apos;&#x6570;&#x636E;&#x5E93;&#x540D;&apos;</span>;</div><div class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> &#x6570;&#x636E;&#x5E93;.&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x540D;;</div><div class="line"></div><div class="line"><span class="comment">-- &#x5220;&#x9664;</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span>  <span class="string">&apos;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x540D;&apos;</span></div></pre></td></tr></table></figure>
+<h2 id="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x63A7;&#x5236;&#x8BED;&#x53E5;"><a href="#MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x63A7;&#x5236;&#x8BED;&#x53E5;" class="headerlink" title="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x63A7;&#x5236;&#x8BED;&#x53E5;"></a>MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x63A7;&#x5236;&#x8BED;&#x53E5;</h2><h3 id="&#x53D8;&#x91CF;&#x4F5C;&#x7528;&#x57DF;"><a href="#&#x53D8;&#x91CF;&#x4F5C;&#x7528;&#x57DF;" class="headerlink" title="&#x53D8;&#x91CF;&#x4F5C;&#x7528;&#x57DF;"></a>&#x53D8;&#x91CF;&#x4F5C;&#x7528;&#x57DF;</h3><p>&#x5185;&#x90E8;&#x7684;&#x53D8;&#x91CF;&#x5728;&#x5176;&#x4F5C;&#x7528;&#x57DF;&#x8303;&#x56F4;&#x5185;&#x4EAB;&#x6709;&#x66F4;&#x9AD8;&#x7684;&#x4F18;&#x5148;&#x6743;&#xFF0C;&#x5F53;&#x6267;&#x884C;&#x5230;end&#x3002;&#x53D8;&#x91CF;&#x65F6;&#xFF0C;&#x5185;&#x90E8;&#x53D8;&#x91CF;&#x6D88;&#x5931;&#xFF0C;&#x6B64;&#x65F6;&#x5DF2;&#x7ECF;&#x5728;&#x5176;&#x4F5C;&#x7528;&#x57DF;&#x5916;&#xFF0C;&#x53D8;&#x91CF;&#x4E0D;&#x518D;&#x53EF;&#x89C1;&#x4E86;&#xFF0C;<br>&#x5E94;&#x4E3A;&#x5728;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x5916;&#x518D;&#x4E5F;&#x4E0D;&#x80FD;&#x627E;&#x5230;&#x8FD9;&#x4E2A;&#x7533;&#x660E;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x4F46;&#x662F;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;out&#x53C2;&#x6570;&#x6216;&#x8005;&#x5C06;&#x5176;&#x503C;&#x6307;&#x6D3E;&#x7ED9;&#x4F1A;&#x8BDD;&#x53D8;&#x91CF;&#x6765;&#x4FDD;&#x5B58;&#x5176;&#x503C;&#x3002;<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">DELIMITER //</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> pro_variable_field()</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">DECLARE</span> var1 <span class="built_in">VARCHAR</span>(<span class="number">5</span>) <span class="keyword">DEFAULT</span> <span class="string">&apos;outer&apos;</span>;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">DECLARE</span> var1 <span class="built_in">VARCHAR</span>(<span class="number">5</span>) <span class="keyword">DEFAULT</span> <span class="string">&apos;inner&apos;</span>;</div><div class="line"><span class="keyword">SELECT</span> var1;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"><span class="keyword">SELECT</span> var1;</div><div class="line"><span class="keyword">END</span>;</div><div class="line">//</div><div class="line">DELIMITER ;</div></pre></td></tr></table></figure></p>
+<h3 id="&#x6761;&#x4EF6;&#x8BED;&#x53E5;"><a href="#&#x6761;&#x4EF6;&#x8BED;&#x53E5;" class="headerlink" title="&#x6761;&#x4EF6;&#x8BED;&#x53E5;"></a>&#x6761;&#x4EF6;&#x8BED;&#x53E5;</h3><p>&#x2160;. if-then -else&#x8BED;&#x53E5;<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">DELIMITER //</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> ifthenelse(<span class="keyword">IN</span> parameter <span class="built_in">INT</span>)</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">DECLARE</span> <span class="keyword">var</span> <span class="built_in">INT</span> ;</div><div class="line"><span class="keyword">SET</span> <span class="keyword">var</span> = parameter + <span class="number">1</span>;</div><div class="line">IF var=0 THEN</div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> sys_log <span class="keyword">VALUE</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="literal">NULL</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>);</div><div class="line"><span class="keyword">END</span> <span class="keyword">IF</span>;</div><div class="line">IF parameter=0 THEN</div><div class="line"><span class="keyword">UPDATE</span> sys_log <span class="keyword">SET</span> <span class="keyword">id</span>=<span class="keyword">id</span>+<span class="number">1</span>;</div><div class="line">ELSE</div><div class="line"><span class="keyword">UPDATE</span> sys_log <span class="keyword">SET</span> <span class="keyword">id</span>=<span class="keyword">id</span>+<span class="number">1</span>;</div><div class="line"><span class="keyword">END</span> <span class="keyword">IF</span>;</div><div class="line"><span class="keyword">END</span>;</div><div class="line">//</div><div class="line">DELIMITER ;</div></pre></td></tr></table></figure></p>
+<p>&#x2161;. case&#x8BED;&#x53E5;&#xFF1A;<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">DELIMITER $$</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> casewhenthen(<span class="keyword">IN</span> caseparameter <span class="built_in">INT</span>)</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">DECLARE</span> <span class="keyword">var</span> <span class="built_in">INT</span> ;</div><div class="line"><span class="keyword">SET</span> <span class="keyword">var</span> = caseparameter+<span class="number">1</span>;</div><div class="line">CASE var</div><div class="line">WHEN 0 THEN</div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">var</span>+<span class="number">1</span>;</div><div class="line">WHEN 1 THEN </div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">var</span>+<span class="number">2</span>;</div><div class="line">ELSE</div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">var</span>+<span class="number">8</span>;</div><div class="line"><span class="keyword">END</span> <span class="keyword">CASE</span>;</div><div class="line"><span class="keyword">END</span>;</div><div class="line">$$</div><div class="line">DELIMITER ;</div><div class="line"></div><div class="line"><span class="keyword">CALL</span> casewhenthen(<span class="number">0</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="&#x5FAA;&#x73AF;&#x8BED;&#x53E5;"><a href="#&#x5FAA;&#x73AF;&#x8BED;&#x53E5;" class="headerlink" title="&#x5FAA;&#x73AF;&#x8BED;&#x53E5;"></a>&#x5FAA;&#x73AF;&#x8BED;&#x53E5;</h3><p>&#x2160;. while &#xB7;&#xB7;&#xB7;&#xB7; end while&#xFF1A;<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">DELIMITER !!</div><div class="line">CREATE PROCEDURE whileloop()</div><div class="line">BEGIN</div><div class="line">DECLARE var INT;</div><div class="line">SET var = 0;</div><div class="line">WHILE var&lt;6 DO </div><div class="line">SELECT var;</div><div class="line">SET var = var+1;</div><div class="line">END WHILE;</div><div class="line">END;</div><div class="line">!!</div><div class="line">DELIMITER ;</div><div class="line"></div><div class="line">CALL whileloop();</div></pre></td></tr></table></figure></p>
+<p>&#x2161;. repeat&#xB7;&#xB7;&#xB7;&#xB7; end repeat&#xFF1A;<br>&#x5B83;&#x5728;&#x6267;&#x884C;&#x64CD;&#x4F5C;&#x540E;&#x68C0;&#x67E5;&#x7ED3;&#x679C;&#xFF0C;&#x800C;while&#x5219;&#x662F;&#x6267;&#x884C;&#x524D;&#x8FDB;&#x884C;&#x68C0;&#x67E5;&#x3002;<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">DELIMITER **</div><div class="line">CREATE PROCEDURE repeatuntil()</div><div class="line">BEGIN</div><div class="line">DECLARE var INT;</div><div class="line">SET var = 0;</div><div class="line">REPEAT </div><div class="line">SELECT var;</div><div class="line">SET var = var+1;</div><div class="line">UNTIL var&gt;=5</div><div class="line">END REPEAT;</div><div class="line">END;</div><div class="line">**</div><div class="line">DELIMITER ;</div><div class="line"></div><div class="line">CALL repeatuntil();</div></pre></td></tr></table></figure></p>
+<p>&#x2162;. loop &#xB7;&#xB7;&#xB7;&#xB7;&#xB7;end loop:<br>loop&#x5FAA;&#x73AF;&#x4E0D;&#x9700;&#x8981;&#x521D;&#x59CB;&#x6761;&#x4EF6;&#xFF0C;&#x8FD9;&#x70B9;&#x548C;while &#x5FAA;&#x73AF;&#x76F8;&#x4F3C;&#xFF0C;&#x540C;&#x65F6;&#x548C;repeat&#x5FAA;&#x73AF;&#x4E00;&#x6837;&#x4E0D;&#x9700;&#x8981;&#x7ED3;&#x675F;&#x6761;&#x4EF6;, leave&#x8BED;&#x53E5;&#x7684;&#x610F;&#x4E49;&#x662F;&#x79BB;&#x5F00;&#x5FAA;&#x73AF;&#x3002;<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">DELIMITER **</div><div class="line">CREATE PROCEDURE loopdemo()</div><div class="line">BEGIN</div><div class="line">DECLARE var INT;</div><div class="line">SET var = 4;</div><div class="line">LOOP_LABLE:LOOP</div><div class="line">SELECT var;</div><div class="line">SET var = var+1;</div><div class="line">IF var&gt;=8 THEN</div><div class="line">LEAVE LOOP_LABLE;</div><div class="line">END IF;</div><div class="line">END LOOP;</div><div class="line">END;</div><div class="line">**</div><div class="line">DELIMITER ;</div><div class="line"></div><div class="line">CALL loopdemo();</div></pre></td></tr></table></figure></p>
+<h3 id="ITERATE&#x8FED;&#x4EE3;"><a href="#ITERATE&#x8FED;&#x4EE3;" class="headerlink" title="ITERATE&#x8FED;&#x4EE3;"></a>ITERATE&#x8FED;&#x4EE3;</h3><p>&#x2160;. ITERATE:<br>&#x901A;&#x8FC7;&#x5F15;&#x7528;&#x590D;&#x5408;&#x8BED;&#x53E5;&#x7684;&#x6807;&#x53F7;,&#x6765;&#x4ECE;&#x65B0;&#x5F00;&#x59CB;&#x590D;&#x5408;&#x8BED;&#x53E5;</p>
+<h2 id="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x57FA;&#x672C;&#x51FD;&#x6570;"><a href="#MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x57FA;&#x672C;&#x51FD;&#x6570;" class="headerlink" title="MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x57FA;&#x672C;&#x51FD;&#x6570;"></a>MySQL&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x57FA;&#x672C;&#x51FD;&#x6570;</h2><h3 id="&#x5B57;&#x7B26;&#x4E32;&#x7C7B;"><a href="#&#x5B57;&#x7B26;&#x4E32;&#x7C7B;" class="headerlink" title="&#x5B57;&#x7B26;&#x4E32;&#x7C7B;"></a>&#x5B57;&#x7B26;&#x4E32;&#x7C7B;</h3><p>CHARSET(str) //&#x8FD4;&#x56DE;&#x5B57;&#x4E32;&#x5B57;&#x7B26;&#x96C6;<br>CONCAT (string2 [,&#x2026; ]) //&#x8FDE;&#x63A5;&#x5B57;&#x4E32;<br>INSTR (string ,substring ) //&#x8FD4;&#x56DE;substring&#x9996;&#x6B21;&#x5728;string&#x4E2D;&#x51FA;&#x73B0;&#x7684;&#x4F4D;&#x7F6E;,&#x4E0D;&#x5B58;&#x5728;&#x8FD4;&#x56DE;0<br>LCASE (string2 ) //&#x8F6C;&#x6362;&#x6210;&#x5C0F;&#x5199;<br>LEFT (string2 ,length ) //&#x4ECE;string2&#x4E2D;&#x7684;&#x5DE6;&#x8FB9;&#x8D77;&#x53D6;length&#x4E2A;&#x5B57;&#x7B26;<br>LENGTH (string ) //string&#x957F;&#x5EA6;<br>LOAD_FILE (file_name ) //&#x4ECE;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#x5185;&#x5BB9;<br>LOCATE (substring , string [,start_position ] ) &#x540C;INSTR,&#x4F46;&#x53EF;&#x6307;&#x5B9A;&#x5F00;&#x59CB;&#x4F4D;&#x7F6E;<br>LPAD (string2 ,length ,pad ) //&#x91CD;&#x590D;&#x7528;pad&#x52A0;&#x5728;string&#x5F00;&#x5934;,&#x76F4;&#x5230;&#x5B57;&#x4E32;&#x957F;&#x5EA6;&#x4E3A;length<br>LTRIM (string2 ) //&#x53BB;&#x9664;&#x524D;&#x7AEF;&#x7A7A;&#x683C;<br>REPEAT (string2 ,count ) //&#x91CD;&#x590D;count&#x6B21;<br>REPLACE (str ,search_str ,replace_str ) //&#x5728;str&#x4E2D;&#x7528;replace_str&#x66FF;&#x6362;search_str<br>RPAD (string2 ,length ,pad) //&#x5728;str&#x540E;&#x7528;pad&#x8865;&#x5145;,&#x76F4;&#x5230;&#x957F;&#x5EA6;&#x4E3A;length<br>RTRIM (string2 ) //&#x53BB;&#x9664;&#x540E;&#x7AEF;&#x7A7A;&#x683C;<br>STRCMP (string1 ,string2 ) //&#x9010;&#x5B57;&#x7B26;&#x6BD4;&#x8F83;&#x4E24;&#x5B57;&#x4E32;&#x5927;&#x5C0F;,<br>SUBSTRING (str , position [,length ]) //&#x4ECE;str&#x7684;position&#x5F00;&#x59CB;,&#x53D6;length&#x4E2A;&#x5B57;&#x7B26;,<br>&#x6CE8;&#xFF1A;mysql&#x4E2D;&#x5904;&#x7406;&#x5B57;&#x7B26;&#x4E32;&#x65F6;&#xFF0C;&#x9ED8;&#x8BA4;&#x7B2C;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E0B;&#x6807;&#x4E3A;1&#xFF0C;&#x5373;&#x53C2;&#x6570;position&#x5FC5;&#x987B;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;1 </p>
+<p>TRIM([[BOTH|LEADING|TRAILING] [padding] FROM]string2) //&#x53BB;&#x9664;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x7684;&#x6307;&#x5B9A;&#x5B57;&#x7B26;<br>UCASE (string2 ) //&#x8F6C;&#x6362;&#x6210;&#x5927;&#x5199;<br>RIGHT(string2,length) //&#x53D6;string2&#x6700;&#x540E;length&#x4E2A;&#x5B57;&#x7B26;<br>SPACE(count) //&#x751F;&#x6210;count&#x4E2A;&#x7A7A;&#x683C;</p>
+<h3 id="&#x6570;&#x5B66;&#x7C7B;"><a href="#&#x6570;&#x5B66;&#x7C7B;" class="headerlink" title="&#x6570;&#x5B66;&#x7C7B;"></a>&#x6570;&#x5B66;&#x7C7B;</h3><p>ABS (number2 ) //&#x7EDD;&#x5BF9;&#x503C;<br>BIN (decimal_number ) //&#x5341;&#x8FDB;&#x5236;&#x8F6C;&#x4E8C;&#x8FDB;&#x5236;<br>CEILING (number2 ) //&#x5411;&#x4E0A;&#x53D6;&#x6574;<br>CONV(number2,from_base,to_base) //&#x8FDB;&#x5236;&#x8F6C;&#x6362;<br>FLOOR (number2 ) //&#x5411;&#x4E0B;&#x53D6;&#x6574;<br>FORMAT (number,decimal_places ) //&#x4FDD;&#x7559;&#x5C0F;&#x6570;&#x4F4D;&#x6570;<br>HEX (DecimalNumber ) //&#x8F6C;&#x5341;&#x516D;&#x8FDB;&#x5236;<br>&#x6CE8;&#xFF1A;HEX()&#x4E2D;&#x53EF;&#x4F20;&#x5165;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#x5176;ASC-11&#x7801;&#xFF0C;&#x5982;HEX(&#x2018;DEF&#x2019;)&#x8FD4;&#x56DE;4142143<br>&#x4E5F;&#x53EF;&#x4EE5;&#x4F20;&#x5165;&#x5341;&#x8FDB;&#x5236;&#x6574;&#x6570;&#xFF0C;&#x8FD4;&#x56DE;&#x5176;&#x5341;&#x516D;&#x8FDB;&#x5236;&#x7F16;&#x7801;&#xFF0C;&#x5982;HEX(25)&#x8FD4;&#x56DE;19<br>LEAST (number , number2 [,..]) //&#x6C42;&#x6700;&#x5C0F;&#x503C;<br>MOD (numerator ,denominator ) //&#x6C42;&#x4F59;<br>POWER (number ,power ) //&#x6C42;&#x6307;&#x6570;<br>RAND([seed]) //&#x968F;&#x673A;&#x6570;<br>ROUND (number [,decimals ]) //&#x56DB;&#x820D;&#x4E94;&#x5165;,decimals&#x4E3A;&#x5C0F;&#x6570;&#x4F4D;&#x6570;]<br>&#x6CE8;&#xFF1A;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x5E76;&#x975E;&#x5747;&#x4E3A;&#x6574;&#x6570;&#xFF0C;&#x5982;&#xFF1A;<br>(1)&#x9ED8;&#x8BA4;&#x53D8;&#x4E3A;&#x6574;&#x5F62;&#x503C;<br>(2)&#x53EF;&#x4EE5;&#x8BBE;&#x5B9A;&#x5C0F;&#x6570;&#x4F4D;&#x6570;&#xFF0C;&#x8FD4;&#x56DE;&#x6D6E;&#x70B9;&#x578B;&#x6570;&#x636E;</p>
+<h3 id="&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7C7B;"><a href="#&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7C7B;" class="headerlink" title="&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7C7B;"></a>&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7C7B;</h3><p>ADDTIME (date2 ,time_interval ) //&#x5C06;time_interval&#x52A0;&#x5230;date2<br>CONVERT_TZ (datetime2 ,fromTZ ,toTZ ) //&#x8F6C;&#x6362;&#x65F6;&#x533A;<br>CURRENT_DATE ( ) //&#x5F53;&#x524D;&#x65E5;&#x671F;<br>CURRENT_TIME ( ) //&#x5F53;&#x524D;&#x65F6;&#x95F4;<br>CURRENT_TIMESTAMP ( ) //&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x6233;<br>DATE (datetime ) //&#x8FD4;&#x56DE;datetime&#x7684;&#x65E5;&#x671F;&#x90E8;&#x5206;<br>DATE_ADD (date2 , INTERVAL d_value d_type ) //&#x5728;date2&#x4E2D;&#x52A0;&#x4E0A;&#x65E5;&#x671F;&#x6216;&#x65F6;&#x95F4;<br>DATE_FORMAT (datetime ,FormatCodes ) //&#x4F7F;&#x7528;formatcodes&#x683C;&#x5F0F;&#x663E;&#x793A;datetime<br>DATE_SUB (date2 , INTERVAL d_value d_type ) //&#x5728;date2&#x4E0A;&#x51CF;&#x53BB;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;<br>DATEDIFF (date1 ,date2 ) //&#x4E24;&#x4E2A;&#x65E5;&#x671F;&#x5DEE;<br>DAY (date ) //&#x8FD4;&#x56DE;&#x65E5;&#x671F;&#x7684;&#x5929;<br>DAYNAME (date ) //&#x82F1;&#x6587;&#x661F;&#x671F;<br>DAYOFWEEK (date ) //&#x661F;&#x671F;(1-7) ,1&#x4E3A;&#x661F;&#x671F;&#x5929;<br>DAYOFYEAR (date ) //&#x4E00;&#x5E74;&#x4E2D;&#x7684;&#x7B2C;&#x51E0;&#x5929;<br>EXTRACT (interval_name FROM date ) //&#x4ECE;date&#x4E2D;&#x63D0;&#x53D6;&#x65E5;&#x671F;&#x7684;&#x6307;&#x5B9A;&#x90E8;&#x5206;<br>MAKEDATE (year ,day ) //&#x7ED9;&#x51FA;&#x5E74;&#x53CA;&#x5E74;&#x4E2D;&#x7684;&#x7B2C;&#x51E0;&#x5929;,&#x751F;&#x6210;&#x65E5;&#x671F;&#x4E32;<br>MAKETIME (hour ,minute ,second ) //&#x751F;&#x6210;&#x65F6;&#x95F4;&#x4E32;<br>MONTHNAME (date ) //&#x82F1;&#x6587;&#x6708;&#x4EFD;&#x540D;<br>NOW ( ) //&#x5F53;&#x524D;&#x65F6;&#x95F4;<br>SEC_TO_TIME (seconds ) //&#x79D2;&#x6570;&#x8F6C;&#x6210;&#x65F6;&#x95F4;<br>STR_TO_DATE (string ,format ) //&#x5B57;&#x4E32;&#x8F6C;&#x6210;&#x65F6;&#x95F4;,&#x4EE5;format&#x683C;&#x5F0F;&#x663E;&#x793A;<br>TIMEDIFF (datetime1 ,datetime2 ) //&#x4E24;&#x4E2A;&#x65F6;&#x95F4;&#x5DEE;<br>TIME_TO_SEC (time ) //&#x65F6;&#x95F4;&#x8F6C;&#x79D2;&#x6570;]<br>WEEK (date_time [,start_of_week ]) //&#x7B2C;&#x51E0;&#x5468;<br>YEAR (datetime ) //&#x5E74;&#x4EFD;<br>DAYOFMONTH(datetime) //&#x6708;&#x7684;&#x7B2C;&#x51E0;&#x5929;<br>HOUR(datetime) //&#x5C0F;&#x65F6;<br>LAST_DAY(date) //date&#x7684;&#x6708;&#x7684;&#x6700;&#x540E;&#x65E5;&#x671F;<br>MICROSECOND(datetime) //&#x5FAE;&#x79D2;<br>MONTH(datetime) //&#x6708;<br>MINUTE(datetime) //&#x5206;&#x8FD4;&#x56DE;&#x7B26;&#x53F7;,&#x6B63;&#x8D1F;&#x6216;0<br>SQRT(number2) //&#x5F00;&#x5E73;&#x65B9;</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/08/MySQLSP/">MySQL 存储过程的使用</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">markee</a></p>
+        <p><span>发布时间:</span>2016-08-08, 17:27:18</p>
+        <p><span>最后更新:</span>2016-09-26, 10:40:51</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/08/MySQLSP/" title="MySQL 存储过程的使用">http://code.idea4j.com/2016/08/08/MySQLSP/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://code.idea4j.com/2016/08/08/MySQLSP/　　作者: markee" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/08/09/DesignPatterns/">
+                    设计模式(一)
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/08/storedprodcedure/">
+                    存储过程的优缺点
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL存储过程的创建"><span class="toc-number">1.</span> <span class="toc-text">MySQL存储过程的创建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#格式"><span class="toc-number">1.1.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#声明分隔符"><span class="toc-number">1.2.</span> <span class="toc-text">声明分隔符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数"><span class="toc-number">1.3.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量"><span class="toc-number">1.4.</span> <span class="toc-text">变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL存储过程的查询、删除"><span class="toc-number">2.</span> <span class="toc-text">MySQL存储过程的查询、删除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL存储过程的控制语句"><span class="toc-number">3.</span> <span class="toc-text">MySQL存储过程的控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量作用域"><span class="toc-number">3.1.</span> <span class="toc-text">变量作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件语句"><span class="toc-number">3.2.</span> <span class="toc-text">条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环语句"><span class="toc-number">3.3.</span> <span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ITERATE迭代"><span class="toc-number">3.4.</span> <span class="toc-text">ITERATE迭代</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL存储过程的基本函数"><span class="toc-number">4.</span> <span class="toc-text">MySQL存储过程的基本函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串类"><span class="toc-number">4.1.</span> <span class="toc-text">字符串类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数学类"><span class="toc-number">4.2.</span> <span class="toc-text">数学类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日期时间类"><span class="toc-number">4.3.</span> <span class="toc-text">日期时间类</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"MySQL 存储过程的使用　| 码客Mark　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/08/08/MySQLSP/" data-title="MySQL 存储过程的使用" data-url="http://code.idea4j.com/2016/08/08/MySQLSP/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"idea4j"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/08/09/DesignPatterns/" title="上一篇: 设计模式(一)">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/08/storedprodcedure/" title="下一篇: 存储过程的优缺点">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/quickstart/">使用maxwell</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/前后端联调过程/">前后端联调过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/Redis 教程/">Redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/27/使用maxwell实时同步mysql数据到消息队列(rabbitMQ)/">使用maxwell实时同步mysql数据到消息队列(rabbitMQ)</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/20/如何有效的学习/">如何有效的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/15/消息队列/">消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/07/03/日拱一卒/">日拱一卒</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/30/手写RPC框架/">手写RPC框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/28/编写springboot启动器/">springboot启动器</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/28/问题大全/">问题大全</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/09/Pinpoint/">Pinpoint安装使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/04/RabbitMQ命令行/">RabbitMQ命令行</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/29/docker 命令/">docker 命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/29/docker 容器数据卷/">docker 容器数据卷</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/Dockerfile指令/">docker 容器数据卷</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/Docker搭建zookeeper集群/">Docker搭建zookeeper集群</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/java语言特性知识点汇总/">java语言特性知识点汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/28/mst/">面试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/21/系统性能核心关注点/">系统性能核心关注点</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/24/Netty权威指南/">Netty权威指南目录抄写</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/17/bat/">BAT后端开发面试108题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/27/MySQL权限分配/">MySQL权限分配</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/19/mysql哪些情况不适合建索引/">mysql哪些情况不适合建索引</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/10/xpath/">常用xpath例子</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/24/Netty/">Netty</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/28/MyBatis使用了哪些设计模式，在源码上是如何体现的？/">MyBatis使用了哪些设计模式，在源码上是如何体现的？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/20/yinyangshi/">我的阴阳师之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/20/mylife170320/">mylife170320</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/06/java1/">pacakge-info.java</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/mybatis2/">MyBatis Generator配置文件详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/springbatch/">springbatch</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/26/docker/">Boot2Docker 启动闪退</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/jenkins/">jenkins 安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/linux2/">linux 端口查看</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/linux1/">linux下的文件结构，每个文件夹用途</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/21/svn1/">linux下svn安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/19/jvm2/">堆分配参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/questions/">开发中遇到的异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/mybatis1/">mybatis generator 配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/jinyan/">jinyan</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/javaapi1/">Java API 学习之ClassLoader</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/05/lua1/">Lua语言积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/sqljl/">sql语句：根据身份证得到省份、生日、性别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/jqiframe/">js与jQuery 获取父窗、子窗的iframe</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/sqlty/">sql优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/09/usapresident/">美国历任总统，在任年限及所属党派</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/04/xingnen2/">改善性能的几个技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/03/xingnen/">性能概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/02/servlet3/">一行配置文件引发的“血案”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/btyeclass/">Class类文件的结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/jvm1/">java虚拟机性能监控与故障管理工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/21/mvnenvironmentseparate/">Maven 打包实现环境配置分离</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/18/huibian/">汇编语言(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/17/byyl/">byyl</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/17/shenzhou/">神舟飞船系列</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/mysqlTransaction/">更改MySQL的默认事务隔离级别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/angularjs2d1/">angularjs2d1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/mvnarchetype/">创建自己maven archetype</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/hexo/">hexo + github建站</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/09/mongodb/">mongodb</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/29/society/">房地产资本主义时代</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/essay0923/">微信小程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/22/essay0922/">个人小记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/21/essay/">随笔</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/24/node15/">Express 框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/23/node14/">使用 Node 创建 Web 服务器和客户端</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/node13/">Node.js GET/POST请求</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/node12/">Node.js 文件系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/maven/">maven</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/node11/">Node.js 常用工具</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/node10/">Node.js 全局对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/17/node9/">Node.js 路由</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node8/">Node.js模块系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node7/">Node.js Stream(流)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/vim/">vim命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/node6/">Node.js Buffer(缓冲区)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node5/">Node.js EventEmitter</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node4/">Node.js 事件循环</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node3/">Node.js 回调函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/markdown/">markdown语法积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/15/node2/">NPM 使用介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/14/sublime/">sublime text 3 使用积累</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/14/node1/">Node.js 创建第一个应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/staruml1/">使用快速生成GoF设计模式的类图与代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/builderpattern/">builderpattern</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/09/DesignPatterns/">设计模式(一)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/MySQLSP/">MySQL 存储过程的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/storedprodcedure/">存储过程的优缺点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/07/liyue87/">恭喜张梦雪夺得里约奥运首金</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/nba1/">喜欢的NBA海报</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/mooc10/">10家慕课网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/01/hexouser/">在多台电脑上使用hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/30/hi-hexo/">hexo</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2020 markee
+
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+                <a href="http://www.miitbeian.gov.cn/">京ICP备16056982号-1</a>
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+             categories: ".article-category a, a.tag-list-link", 
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
