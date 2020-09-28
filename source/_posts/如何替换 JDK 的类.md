@@ -33,7 +33,7 @@ description:
 
 2. 复制jdk中ArrayList源码到自己创建的ArrayList，并修改构造方法如下：
 
-![](https://gitee.com/idea4j/imagerep/raw/master/images/image-20200911114253815.png)
+![image-20200911114253815](https://gitee.com/idea4j/imagerep/raw/master/images/image-20200911114253815.png)
 
 3. 将工程打包成jar，复制到endorsed文件夹中
 4. 新建测试类
