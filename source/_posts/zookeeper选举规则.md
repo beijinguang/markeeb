@@ -1,3 +1,11 @@
+---
+title: zookeeper选举规则
+categories: [zookeeper]
+tags: [zookeeper]
+date: 2020-07-15 11:11:07
+description:
+---
+
 ### zookeeper选举规则
 
 

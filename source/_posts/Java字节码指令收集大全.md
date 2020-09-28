@@ -1,3 +1,10 @@
+---
+title: Java字节码指令收集大全
+date: 2020-05-28 20:10:32
+categories: [Java字节码]
+tags: [Java字节码]
+---
+
 ## Java字节码指令收集大全
 
 

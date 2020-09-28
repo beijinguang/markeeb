@@ -1,3 +1,11 @@
+---
+title: MAT工具应用之深堆和浅堆
+categories: [jvm]
+tags: [jvm]
+date: 2017-03-20 11:21:11
+description:
+---
+
 ## MAT工具应用之深堆和浅堆
 
 ### 浅堆（Shallow Heap）

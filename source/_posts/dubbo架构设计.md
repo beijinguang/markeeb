@@ -1,3 +1,10 @@
+---
+title: dubbo架构设计
+date: 2020-05-28 20:10:32
+categories: [dubbo]
+tags: [dubbo]
+---
+
 ### dubbo架构设计
 
 

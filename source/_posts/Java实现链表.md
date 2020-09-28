@@ -1,3 +1,9 @@
+---
+title: Java实现链表
+date: 2020-05-28 20:10:32
+categories: [数据结构]
+tags: [数据结构]
+---
 # Java实现链表
 
 

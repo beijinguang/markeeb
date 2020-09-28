@@ -1,3 +1,11 @@
+---
+title: 如何替换 JDK 的类
+categories: [如何替换 JDK 的类]
+tags: [如何替换 JDK 的类]
+date: 2020-07-15 11:11:07
+description:
+---
+
 ## 如何替换 JDK 的类
 
 
@@ -25,7 +33,7 @@
 
 2. 复制jdk中ArrayList源码到自己创建的ArrayList，并修改构造方法如下：
 
-![image-20200911114253815](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200911114253815.png)
+![](https://gitee.com/idea4j/imagerep/raw/master/images/image-20200911114253815.png)
 
 3. 将工程打包成jar，复制到endorsed文件夹中
 4. 新建测试类
