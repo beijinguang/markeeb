@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fbaffdc9-7d23-45ab-bb9e-7cc9bf1fb484" name="Default" comment="add article">
-      <change beforePath="$PROJECT_DIR$/.deploy_git" beforeDir="false" afterPath="$PROJECT_DIR$/.deploy_git" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/_posts/如何替换 JDK 的类.md" beforeDir="false" afterPath="$PROJECT_DIR$/source/_posts/如何替换 JDK 的类.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/_posts/系统性能核心关注点.md" beforeDir="false" afterPath="$PROJECT_DIR$/source/_posts/系统性能核心关注点.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/_posts/程序员必备知识点.md" beforeDir="false" afterPath="$PROJECT_DIR$/source/_posts/程序员必备知识点.md" afterDir="false" />
     </list>
     <list id="1ecf5f67-1226-4742-b828-c944621cb989" name="Failed commit: Default" comment="add search" />
     <option name="SHOW_DIALOG" value="false" />
@@ -364,7 +361,7 @@
       <workItem from="1541569585392" duration="4437000" />
       <workItem from="1596505815389" duration="7762000" />
       <workItem from="1599803518641" duration="3450000" />
-      <workItem from="1601288919592" duration="3705000" />
+      <workItem from="1601288919592" duration="4244000" />
     </task>
     <task id="LOCAL-00001" summary="add search">
       <created>1474450402436</created>
@@ -583,7 +580,21 @@
       <option name="project" value="LOCAL" />
       <updated>1601291790813</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="add article">
+      <created>1601293816205</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1601293816205</updated>
+    </task>
+    <task id="LOCAL-00033" summary="add article">
+      <created>1601293860937</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1601293860937</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -619,10 +630,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="add article" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="533" y="113" key="CommitChangelistDialog2" timestamp="1601291673488">
+    <state x="533" y="113" key="CommitChangelistDialog2" timestamp="1601293858415">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="533" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1601291673488" />
+    <state x="533" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1601293858415" />
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1596506455008">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -631,10 +642,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="669" y="235" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1599804225161" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1601291839247">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1601293876876">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1601291839247" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1601293876876" />
     <state x="660" y="310" key="git4idea.merge.GitPullDialog" timestamp="1599804251462">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
