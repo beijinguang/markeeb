@@ -1,3 +1,10 @@
+---
+title: GC日志配置
+date: 2020-05-28 20:10:32
+categories: [GC]
+tags: [GC]
+---
+
 **Java 8**
 
 ```shell
