@@ -113,19 +113,19 @@ TCP封包完成之后，就可以传输了，浏览器和服务器就完成了TC
 
 jvm分为程序技术器、堆、栈、元空间、直接内存；
 
-栈，虚拟机栈和本地方法栈
+**栈**，虚拟机栈和本地方法栈
 
-栈，也叫方法栈是线程私有的，线程执行每一个方法时都会创建一个栈帧，用来存储局部变量表，操作栈，动态链接，方法出口等信息。调用方法时执行入栈，方法返回时执行出栈。
+**栈**，也叫方法栈是线程私有的，线程执行每一个方法时都会创建一个栈帧，用来存储局部变量表，操作栈，动态链接，方法出口等信息。调用方法时执行入栈，方法返回时执行出栈。
 
-本地方法栈，与栈类似，也是保存线程执行方法时的信息，不同的是执行java方法使用栈，而执行native方法使用本地方法栈。
+**本地方法栈**，与栈类似，也是保存线程执行方法时的信息，不同的是执行java方法使用栈，而执行native方法使用本地方法栈。
 
-程序计数器保存着当前线程所执行字节码的位置，每个线程都有独立的计数器。
+**程序计数器**保存着当前线程所执行字节码的位置，每个线程都有独立的计数器。
 
-堆是jvm最大的一块，堆被所有的线程共享，目的是为了存储对象实例，几乎所有对象的实例都在堆上分配，当堆内存没有空间时，会OOM异常。
+**堆**是jvm最大的一块，堆被所有的线程共享，目的是为了存储对象实例，几乎所有对象的实例都在堆上分配，当堆内存没有空间时，会OOM异常。
 
-方法区也是各个线程共享的区域，也叫非堆区。用于存储已被虚拟机加载的类信息、常量、静态变量、及时编译器编译后的代码等数据。jdk1.7在永久代，jdk1.8在元空间。
+**方法区**也是各个线程共享的区域，也叫非堆区。用于存储已被虚拟机加载的类信息、常量、静态变量、及时编译器编译后的代码等数据。jdk1.7在永久代，jdk1.8在元空间。
 
-直接内存，bytebuffer创建的内存
+**直接内存**，bytebuffer创建的内存
 
 ### 2.什么情况下会触发FullGC？
 
@@ -252,3 +252,578 @@ MAT：查看内存泄露，看镜像内堆内存的组成，查看对象的深�
 visualVm：查看jvm各个分区的占用情况，查看各个分区的时间曲线
 
 jstack -l 查看死锁，jps等
+
+
+
+## 三、并发与多线程
+
+### 1.如何实现一个生产者消费者模型？
+
+```java
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
+/**
+ * 用 BlockingQueue 实现生产者消费者模式
+ */
+public class Demo {
+
+    public static void main(String[] args) {
+        BlockingQueue blockingQueue = new ArrayBlockingQueue(20);
+
+        Runnable producer = () -> {
+            while (true) {
+                try {
+
+                    blockingQueue.put(new Object());
+                    System.out.println("producor:" + blockingQueue.size());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        new Thread(producer).start();
+        new Thread(producer).start();
+
+        Runnable consumer = () -> {
+            while (true) {
+                try {
+                    System.out.println("consumer:" + blockingQueue.size());
+                    blockingQueue.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        new Thread(consumer).start();
+        new Thread(consumer).start();
+
+    }
+
+}
+
+```
+
+### 2.如何理解线程的同步和异步，阻塞和非阻塞？
+
+
+
+### 3.线程池处理任务的流程是怎么样的？
+
+1. 向线程池提交任务时，会首先判断线程池中的线程数是否大于设置的核心线程数，如果不大于，就创建一个核心线程来执行任务。
+
+2. 如果大于核心线程数，就会判断缓冲队列是否满了，如果没有满，则放入队列，等待线程空闲时执行任务。
+
+3. 如果队列已经满了，则判断是否达到了线程池设置的最大线程数，如果没有达到，就创建新线程来执行任务。
+
+4. 如果已经达到了最大线程数，则执行指定的拒绝策略。
+
+### 4.wait和sleep有什么不同？
+
+wait 属于 Object 类，sleep 属于 Thread 类；
+
+wait 会释放锁对象，而 sleep 不会；
+
+使用的位置不同，wait 需要在同步块中使用，sleep 可以在任意地方；
+
+sleep 需要捕获异常，而 wait 不需要。
+
+### 5.Synchronized和ReentrantLock有什么不同，各适用于什么场景？
+
+**1** 两者都是可重入锁
+
+两者都是可重入锁。“可重入锁”概念是:自己可以再次获取自己的内部锁。比如一个线程获得了某个对 象的锁，此时这个对象锁还没有释放，当其再次想要获取这个对象的锁的时候还是可以获取的，如果不 可锁重入的话，就会造成死锁。同一个线程每次获取锁，锁的计数器都自增1，所以要等到锁的计数器 下降为0时才能释放锁。
+
+**2 synchronized** 依赖于 **JVM** 而 **ReentrantLock** 依赖于 **API**
+
+synchronized 是依赖于 JVM 实现的，前面我们也讲到了 虚拟机团队在 JDK1.6 为 synchronized 关 键字进行了很多优化，但是这些优化都是在虚拟机层面实现的，并没有直接暴露给我们。 ReentrantLock 是 JDK 层面实现的(也就是 API 层面，需要 lock() 和 unlock() 方法配合 try/finally 语句块来完成)，所以我们可以通过查看它的源代码，来看它是如何实现的。
+
+**3 ReentrantLock** 比 **synchronized** 增加了一些高级功能 相比synchronized，ReentrantLock增加了一些高级功能。主要来说主要有三点:**1**等待可中断;**2**可实现公平锁;**3**可实现选择性通知(锁可以绑定多个条件) **ReentrantLock**提供了一种能够中断等待锁的线程的机制，通过lock.lockInterruptibly()来实现这个机制。也就是说正在等待的线程可以选择放弃等待，改为处理其他事情。
+
+**ReentrantLock**可以指定是公平锁还是非公平锁。而**synchronized**只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。 ReentrantLock默认情况是非公平的，可以通过 ReentrantLock 类的 ReentrantLock(boolean fair) 构造方法来制定是否是公平的。 
+
+synchronized关键字与wait()和notify()/notifyAll()方法相结合可以实现等待/通知机制， ReentrantLock类当然也可以实现，但是需要借助于Condition接口与newCondition() 方法。 Condition是JDK1.5之后才有的，它具有很好的灵活性，比如可以实现多路通知功能也就是在一 个Lock对象中可以创建多个Condition实例(即对象监视器)，线程对象可以注册在指定的 **Condition**中，从而可以有选择性的进行线程通知，在调度线程上更加灵活。 在使用 **notify()/notifyAll()**方法进行通知时，被通知的线程是由 **JVM** 选择的，用**ReentrantLock**类结 合**Condition**实例可以实现**“**选择性通知**”** ，这个功能非常重要，而且是Condition接口默认提供 的。而synchronized关键字就相当于整个Lock对象中只有一个Condition实例，所有的线程都注 册在它一个身上。如果执行notifyAll()方法的话就会通知所有处于等待状态的线程这样会造成 很大的效率问题，而Condition实例的signalAll()方法 只会唤醒注册在该Condition实例中的所有等待线程。
+
+
+
+### 6.读写锁适用于什么场景？ReentrantReadWriteLock是如何实现的？
+
+适用于读多写少的场景。
+
+整体思路是它有两把锁，第 1 把锁是写锁，获得写锁之后，既可以读数据又可以修改数据，而第 2 把锁是读锁，获得读锁之后，只能查看数据，不能修改数据。读锁可以被多个线程同时持有，所以多个线程可以同时查看数据。
+
+在读的地方合理使用读锁，在写的地方合理使用写锁，灵活控制，可以提高程序的执行效率。
+
+读写锁的获取规则
+我们在使用读写锁时遵守下面的获取规则：
+
+如果有一个线程已经占用了读锁，则此时其他线程如果要申请读锁，可以申请成功。
+
+如果有一个线程已经占用了读锁，则此时其他线程如果要申请写锁，则申请写锁的线程会一直等待释放读锁，因为读写不能同时操作。
+
+如果有一个线程已经占用了写锁，则此时其他线程如果申请写锁或者读锁，都必须等待之前的线程释放写锁，同样也因为读写不能同时，并且两个线程不应该同时写。
+
+所以我们用一句话总结：要么是一个或多个线程同时有读锁，要么是一个线程有写锁，但是两者不会同时出现。也可以总结为：读读共享、其他都互斥（写写互斥、读写互斥、写读互斥）。
+
+### 7.线程之间如何通信？
+
+利用线程唤醒机制wait()、notify()、notifyAll()；
+
+wait()方法：线程调用wait()方法，**释放**它对锁的拥有权，同时他会在等待的位置加一个标志，为了以后使用notify()或者notifyAll()方法 唤醒它时，它好能从当前位置获得锁的拥有权，变成就绪状态，要确保调用wait()方法的时候**拥有锁**，即，wait()方法的调用必须放在**synchronized**方法或**synchronized**块中。 **在哪里等待被唤醒时，就在那里开始执行。**
+
+notify/notifyAll()方法：**notify()方法：**`**notify()方法会唤醒一个等待当前对象的锁的线程。唤醒在此对象监视器上等待的单个线程。**`
+
+`　***\*notifyAll\**()方法：**`*` **notifyAll（）方法会唤醒在此对象监视器上等待的所有线程。**`*
+
+ **当执行notify/notifyAll方法时，会唤醒一个处于等待该 对象锁 的线程，然后继续往下执行，直到执行完退出对象锁锁住的区域（synchronized修饰的代码块）后再释放锁。**
+
+### 8.保证线程安全的方法有哪些？
+
+CAS、synchronized、Lock，以及 ThreadLocal 等机制。
+
+### 9.如何尽可能提高多线程并发性能？
+
+### 10.ThreadLocal用来解决什么问题？ThreadLocal是如何实现的？
+
+ThreadLocal 不是用来解决多线程共享变量的问题，而是用来解决线程数据隔离的问题。
+
+**底层实现主要是存有一个map，以线程作为key，泛型作为value，可以理解为线程级别的缓存。每一个线程都会获得一个单独的map。**
+
+
+
+### 11.死锁产生的条件？如何分析线程是否有死锁？
+
+jstack l
+
+### 12.在实际工作中遇到过什么并发问题，如何发现排查解决的？
+
+
+
+## 四、数据结构与算法
+
+### 1.各种排序算法实现、复杂度和稳定性
+
+<img src="https://gitee.com/idea4j/image4md/raw/master/images/image-20201005131112030.png" alt="image-20201005131112030" style="zoom:50%;" />
+
+### 2.二叉树的前中后序遍历
+
+前序遍历：前序遍历首先访问根节点，然后遍历左子树，最后遍历右子树。（根左右）
+
+递归：
+
+```java
+public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        preorder(root,res);
+        return res;
+    }
+
+private void preorder(TreeNode root,List<Integer> res){
+  if(root!=null){
+    res.add(root.val);
+  	preorder(root.left,res);
+  	preorder(root.left,res);
+  }
+}
+```
+
+迭代：
+```java
+public List<Integer> preorderTraversal(TreeNode root) {
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        LinkedList<Integer> output = new LinkedList<>();
+        if(root==null){
+            return output;
+        }
+        stack.add(root);
+        while(!stack.isEmpty()){
+            TreeNode node = stack.pollLast();
+            output.add(node.val);
+            if(node.left!=null){
+                stack.add(node.left);
+            }
+            if(node.right!=null){
+                stack.add(node.right);
+            }
+            
+        }
+        return output;
+    }
+
+```
+
+中序遍历：先遍历左子树，然后访问根节点，然后遍历右子树。（左根右）
+
+递归：
+
+```java
+public List<Integer> inorderTraversal(TreeNode root) {
+  List<Integer> res = new ArrayList<>();
+  inorder(root,res);
+  return res;
+}
+
+private List<Integer> inorder(TreeNode root,List<Integer> res){
+  if(root != null){
+  	inorder(root.left,res);
+    res.add(root.val);
+    inorder(root.right,res);
+  }
+}
+```
+
+迭代：
+
+```java
+public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> output = new ArrayList<>();
+        if(root==null){
+            return output;
+        }
+        TreeNode cur = root;
+        while(cur!=null||!stack.isEmpty()){
+            if(cur!=null){
+                stack.add(cur);
+                cur = cur.left;
+            }else{
+                cur = stack.pop();
+                output.add(cur.val);
+                cur = cur.right;
+            }
+        }
+        return output;   
+    }
+```
+
+后序遍历：先遍历左子树，然后遍历右子树，最后访问树的根节点。（左右根）
+
+递归：
+
+```java
+public List<Integer> postorderTraversal(TreeNode root) {
+  List<Integer> res = new ArrayList<>();
+  inorder(root,res);
+  return res;
+}
+
+private List<Integer> postorder(TreeNode root,List<Integer> res){
+  if(root != null){
+  	postorder(root.left,res);
+    postorder(root.right,res);
+    res.add(root.val);
+  }
+}
+```
+
+迭代：
+
+```java
+public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if(root == null)return res;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            if(node.left != null) stack.push(node.left);//和传统先序遍历不一样，先将左结点入栈
+            if(node.right != null) stack.push(node.right);//后将右结点入栈
+            res.add(0,node.val);                        //逆序添加结点值
+        }     
+        return res;
+    }
+```
+
+### 3.翻转句子中单词的顺序
+
+
+
+### 4.用栈模拟队列（或用队列模拟栈）
+
+### 5.对10亿个数进行排序，限制内存为1G
+
+### 6.去掉找出两个数组中重复的数字
+
+
+
+### 7.将一个二叉树转换成其镜像
+
+### 8.确定一个字符串中的符号是否匹配
+
+### 9.给定一个开始词，一个结束词，一个字典，如何找到从开始词到结束词的最短单词接龙路径
+
+
+
+### 10.如何查找两个二叉树节点的最近公共祖先
+
+```java
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+         /**
+        注意p,q必然存在树内, 且所有节点的值唯一!!!
+        递归思想, 对以root为根的(子)树进行查找p和q, 如果root == null || p || q 直接返回root
+        表示对于当前树的查找已经完毕, 否则对左右子树进行查找, 根据左右子树的返回值判断:
+        1. 左右子树的返回值都不为null, 由于值唯一左右子树的返回值就是p和q, 此时root为LCA
+        2. 如果左右子树返回值只有一个不为null, 说明只有p和q存在与左或右子树中, 最先找到的那个节点为LCA
+        3. 左右子树返回值均为null, p和q均不在树中, 返回null
+        **/
+        if(root == null || root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if(left == null && right == null) return null;
+        else if(left != null && right != null) return root;
+  			//3. 左右子树返回值均为null, p和q均不在树中, 返回null
+        else return left == null ? right : left;
+    }
+```
+
+### 不用加减乘除做加法
+
+<img src="https://gitee.com/idea4j/image4md/raw/master/images/image-20201006203307755.png" alt="image-20201006203307755" style="zoom:50%;" />
+
+```java
+public int add(int a,int b){
+  while(b!=0){
+    int c = (a&b)<<1;
+    a^=b;
+    b=c;
+  }
+  return a;
+}
+```
+
+
+
+## 字节跳动校招题
+
+### 挑战字符串
+
+无重复字符的最长子串
+
+```java
+//滑动窗口法
+public int lengthOfLongestSubstring(String s) {
+	Set<Character> set = new HashSet<>();
+  int length = s.length();
+  int i=0,j=0;
+  int max = 0;
+  
+  while (j<length){
+    if(!set.contains(s.charAt(j))){
+      set.add(s.charAt(j));
+      j++;
+    }else{
+      while(set.contains(s.charAt(j))){
+        set.remove(s.charAt(i));
+        i++;
+      }
+    }
+    max = Math.max(max,j-i)
+  }
+  return max;
+	
+}
+```
+
+最长公共前缀
+
+```java
+ public String longestCommonPrefix(String[] strs) {
+   //如果str[]是空或者null,没有共同前缀
+   if (strs == null || strs.length == 0) {
+       return "";
+   }
+   //拿到第一个字符串的长度
+   int length = strs[0].length();
+   //拿到字符串的数量
+   int count = strs.length;
+   for (int i = 0; i < length; i++) {
+     	 //第一个字符串的首字母
+       char c = strs[0].charAt(i);
+       for (int j = 1; j < count; j++) {
+         //如果第j个字符串的长度等于当前前缀长度，或者字符串的字符与前面的字符不相等
+         //则返回前一个字符
+         if (i == strs[j].length() || strs[j].charAt(i) != c) {
+             return strs[0].substring(0, i);
+         }
+       }
+   }
+   return strs[0];
+ }
+```
+
+字符串的排列
+
+```java
+class Solution{
+ List<String> res = new LinkedList<>();
+    char[] c;
+    public String[] permutation(String s) {
+        c = s.toCharArray();
+        dfs(0);
+        return res.toArray(new String[res.size()]);
+       
+    }
+    void dfs(int x){
+        if(x==c.length-1){
+          res.add(String.valueOf(c));
+          return;
+        }
+        HashSet<Character> set = new HashSet<>();
+        for(int i = x; i < c.length; i++){
+          if(set.contains(c[i]))continue;
+          set.add(c[i]);
+          swap(i,x);
+          dfs(x+1);
+          swap(i,x);
+        }
+    }
+    void swap(int a,int b){
+      char tmp = c[a];
+      c[a] = c[b];
+      c[b] = tmp;
+    }
+}
+```
+
+字符串相乘
+
+```java
+public static final String ZERO = "0";
+public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) {
+            return "0";
+        }
+        int[] res = new int[num1.length() + num2.length()];
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            int n1 = num1.charAt(i) - '0';
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int n2 = num2.charAt(j) - '0';
+                int sum = (res[i + j + 1] + n1 * n2);
+                res[i + j + 1] = sum % 10;
+                res[i + j] += sum / 10;
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < res.length; i++) {
+            if (i == 0 && res[i] == 0) continue;
+            result.append(res[i]);
+        }
+        return result.toString();
+    
+}
+```
+
+
+
+翻转字符串里的单词
+
+简化路径
+
+复原ip地址
+
+#### 数组与排序
+
+三数之和
+
+岛屿的最大面积
+
+搜索旋转排列数组
+
+最长连续递增序列
+
+数组中的第K个最大元素
+
+最长连续序列
+
+第K个排列
+
+朋友圈
+
+合并区间
+
+接雨水
+
+### 链表与数
+
+合并两个有序链表
+
+```
+
+```
+
+翻转链表
+
+两数相加
+
+排序链表
+
+环形链表II
+
+相交链表
+
+合并k个升序链表
+
+二叉树的最近公共祖先
+
+二叉树的锯齿形层次遍历
+
+### 动态或贪心
+
+买卖股票的最佳时机
+
+买卖股票的最佳时机II
+
+最大正方形
+
+最大子序和
+
+三角形最小路径和
+
+俄罗斯套娃信封问题
+
+### 数据结构
+
+最小栈
+
+LRU缓存机制
+
+全 O(1) 的数据结构
+
+### 拓展练习
+
+#### x 的平方根
+
+##### 方法一：袖珍计算器算法
+
+「袖珍计算器算法」是一种用指数函数 $\exp$ 和对数函数 $\ln$代替平方根函数的方法。我们通过有限的可以使用的数学函数，得到我们想要计算的结果。
+
+我们将 $\sqrt{x}$ 写成幂的形式  $x^{1/2}$ ，再使用自然对数$e$进行换底，即可得到$\sqrt{x}=x^{1/2}=(e^{lnx})^{1/2}=e^{\frac{1}{2}lnx} $，这样我们就可以得到$\sqrt{x}$的值了
+
+```java
+public int mySqrt(int x) {
+  if(x==0)return 0;
+  int ans = Math.exp(0.5*Math.log(x));
+  return (ans+1)*(ans+1)<=x?(ans+1):ans;
+}
+```
+
+
+
+
+
+#### UTF-8 编码验证
+
+第二高的薪水
+
+
+
+
+
+
+
+## 五、必会框架
+
+
+
