@@ -656,7 +656,7 @@ public int lengthOfLongestSubstring(String s) {
 
 ```java
 class Solution{
- List<String> res = new LinkedList<>();
+ 		List<String> res = new LinkedList<>();
     char[] c;
     public String[] permutation(String s) {
         c = s.toCharArray();
@@ -691,26 +691,26 @@ class Solution{
 ```java
 public static final String ZERO = "0";
 public String multiply(String num1, String num2) {
-        if (num1.equals("0") || num2.equals("0")) {
-            return "0";
-        }
-        int[] res = new int[num1.length() + num2.length()];
-        for (int i = num1.length() - 1; i >= 0; i--) {
-            int n1 = num1.charAt(i) - '0';
-            for (int j = num2.length() - 1; j >= 0; j--) {
-                int n2 = num2.charAt(j) - '0';
-                int sum = (res[i + j + 1] + n1 * n2);
-                res[i + j + 1] = sum % 10;
-                res[i + j] += sum / 10;
-            }
-        }
+  if (num1.equals("0") || num2.equals("0")) {
+    return "0";
+  }
+  int[] res = new int[num1.length() + num2.length()];
+  for (int i = num1.length() - 1; i >= 0; i--) {
+    int n1 = num1.charAt(i) - '0';
+    for (int j = num2.length() - 1; j >= 0; j--) {
+      int n2 = num2.charAt(j) - '0';
+      int sum = (res[i + j + 1] + n1 * n2);
+      res[i + j + 1] = sum % 10;
+      res[i + j] += sum / 10;
+    }
+  }
 
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < res.length; i++) {
-            if (i == 0 && res[i] == 0) continue;
-            result.append(res[i]);
-        }
-        return result.toString();
+  StringBuilder result = new StringBuilder();
+  for (int i = 0; i < res.length; i++) {
+    if (i == 0 && res[i] == 0) continue;
+    result.append(res[i]);
+  }
+  return result.toString();
     
 }
 ```
@@ -718,6 +718,10 @@ public String multiply(String num1, String num2) {
 
 
 翻转字符串里的单词
+
+```java
+
+```
 
 简化路径
 
@@ -755,17 +759,70 @@ public String multiply(String num1, String num2) {
 
 翻转链表
 
+```java
+public ListNode reverseList(ListNode head) {
+	ListNode prev = null;
+  ListNode next = null;
+  ListNode curr = head;
+  while(curr!=null){
+    next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  return prev;
+}
+```
+
 两数相加
+
+```
+
+```
 
 排序链表
 
+```java
+
+```
+
 环形链表II
+
+```java
+
+```
 
 相交链表
 
+```java
+
+```
+
 合并k个升序链表
 
+```java
+
+```
+
 二叉树的最近公共祖先
+
+```java
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+  	//如果root==null,或者p为root,q为root则最近公共祖先为root
+    if(root==null||root==p||root==q)return root;
+  	
+  	TreeNode left = lowestCommonAncestor(root.left,p,q);
+  	TreeNode right = lowestCommonAncestor(root.right,p,q);
+  
+  	if(left==null&&right==null){
+      return null;
+    }else if(left!=null&&right!=null){
+      return root;
+    }else{
+      return left==null?right:left;
+    }
+}
+```
 
 二叉树的锯齿形层次遍历
 
@@ -773,7 +830,30 @@ public String multiply(String num1, String num2) {
 
 买卖股票的最佳时机
 
+```java
+public int maxProfit(int[] prices) {
+  int maxProfit = 0;
+  int minPrice = Integer.MAX_VALUE;
+  for(int i = 0; i < prices.length; i++){
+     minPrice = Math.min(minPrice, prices[i]);
+     maxProfit = Math.max(maxProfit, prices[i] - minPrice);
+  }
+  return maxProfit;
+}
+```
+
 买卖股票的最佳时机II
+
+```java
+public int maxProfit(int[] prices) {
+  int sum = 0;
+  for(int i =1; i < prices.length; i++){
+    int profit = prices[i]-prices[i-1];
+    if(profit>0) sum+=profit;
+  }
+  return sum;
+}
+```
 
 最大正方形
 
