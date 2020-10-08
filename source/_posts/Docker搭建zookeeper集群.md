@@ -49,3 +49,13 @@ server.233=10.255.200.172:2888:3888
 
 docker run  --network host -v /usr/local/zookeeper/data:/data -v  /usr/local/zookeeper/conf:/conf --name zookeeper-2181 -d zookeeper:3.4.13
 
+
+
+节点查看：
+
+```shell
+./zkServer.sh status
+```
+
+
+

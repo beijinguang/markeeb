@@ -58,3 +58,4 @@ NettyHandler#messageReceived(ChannelHandlerContext, MessageEvent)
 ​				—> AllChannelHandler#received(Channel, Object)          
 
 ​					—> ExecutorService#execute(Runnable)    // 由线程池执行后续的调用逻辑
+

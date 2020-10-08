@@ -7,7 +7,13 @@ tags: [dubbo]
 
 ### dubbo架构设计
 
+scp（远程复制在前）Service、config、proxy
 
+r 注册中心
+
+cm（厘米）registry，cluster（），moniter（监控）
+
+pets（protocol-exchange-transport-serialize）
 
 ![image-20200821100631881](https://gitee.com/idea4j/imagerep/raw/master/images/image-20200821100631881.png)
 
