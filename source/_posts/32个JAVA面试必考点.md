@@ -557,7 +557,23 @@ public List<Integer> postorderTraversal(TreeNode root) {
 
 ### 7.将一个二叉树转换成其镜像
 
+```java
+ public TreeNode mirrorTree(TreeNode root) {
+     if(root==null){
+         return null;
+     }
+     TreeNode temp = root.left;
+     root.left = mirrorTree(root.right);
+     root.right = mirrorTree(temp);
+     return root;
+ }
+```
+
+
+
 ### 8.确定一个字符串中的符号是否匹配
+
+
 
 ### 9.给定一个开始词，一个结束词，一个字典，如何找到从开始词到结束词的最短单词接龙路径
 
@@ -809,7 +825,33 @@ public ListNode reverseList(ListNode head) {
 合并k个升序链表
 
 ```java
+public ListNode mergeKLists(ListNode[] lists) {
+        ListNode ans = null;
+        for (int i = 0; i < lists.length; ++i) {
+            ans = mergeTwoLists(ans, lists[i]);
+        }
+        return ans;
+    }
 
+    public ListNode mergeTwoLists(ListNode a, ListNode b) {
+        if (a == null || b == null) {
+            return a != null ? a : b;
+        }
+        ListNode head = new ListNode(0);
+        ListNode tail = head, aPtr = a, bPtr = b;
+        while (aPtr != null && bPtr != null) {
+            if (aPtr.val < bPtr.val) {
+                tail.next = aPtr;
+                aPtr = aPtr.next;
+            } else {
+                tail.next = bPtr;
+                bPtr = bPtr.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = (aPtr != null ? aPtr : bPtr);
+        return head.next;
+    }
 ```
 
 二叉树的最近公共祖先
@@ -904,10 +946,6 @@ public int mySqrt(int x) {
 #### UTF-8 编码验证
 
 第二高的薪水
-
-
-
-
 
 
 
