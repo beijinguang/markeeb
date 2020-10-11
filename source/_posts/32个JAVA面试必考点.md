@@ -615,7 +615,7 @@ public int lengthOfLongestSubstring(String s) {
   int length = s.length();
   int i=0,j=0;
   int max = 0;
-  
+  //j为先行指针，为后行指针，如果先行指针位置在数组尾部之前
   while (j<length){
     if(!set.contains(s.charAt(j))){
       set.add(s.charAt(j));
@@ -745,7 +745,9 @@ public String multiply(String num1, String num2) {
 
 最长连续递增序列
 
-数组中的第K个最大元素
+数组中的第K个最大元素（中序遍历第k个）
+
+
 
 最长连续序列
 
@@ -761,8 +763,14 @@ public String multiply(String num1, String num2) {
 
 合并两个有序链表
 
-```
-
+```java
+public ListNode merge(ListNode l1,ListNode l2){
+  if(l1==null)return l1;
+  if(l2==null)return l2;
+  ListNode temp = l1.val<l2.val?l1:l2;
+  temp.next = mergeTwoLists(temp.next,l1.val>=l2.val?l1:l2);
+  return temp;
+}
 ```
 
 翻转链表
