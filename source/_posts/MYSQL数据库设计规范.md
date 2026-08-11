@@ -1,7 +1,7 @@
 ---
 title: MYSQL数据库设计规范
 categories: [MYSQL]
-tags: [MYSQL,数据库]
+tags: [MySQL, 数据库]
 date: 2020-01-17 11:11:07
 description:
 ---
@@ -14,6 +14,7 @@ description:
 命名简洁明确(长度不能超过30个字符);
 例如：user, stat, log, 也可以wifi_user, wifi_stat, wifi_log给数据库加个前缀;
 除非是备份数据库可以加0-9的自然数：user_db_20151210;
+<!-- more -->
 
 ### 2、数据库表名命名规范
 

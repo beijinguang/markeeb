@@ -1,7 +1,7 @@
 ---
 title: sql语句：根据身份证得到省份、生日、性别
 categories: [mysql]
-tags: [mysql]
+tags: [MySQL, SQL]
 date: 2016-11-30 16:08:54
 description: 根据身份证得到省份、生日、性别
 ---
@@ -43,6 +43,7 @@ WHEN SUBSTRING(id_card_no,1,2)=71  THEN  '台湾省'
 WHEN SUBSTRING(id_card_no,1,2)=81  THEN  '香港特别行政区'   
 WHEN SUBSTRING(id_card_no,1,2)=91  THEN  '澳门特别行政区'  
 END AS '省份',
+<!-- more -->
 
 ### 生日
 SUBSTRING(id_card_no,7,8) AS '生日'

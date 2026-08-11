@@ -1,7 +1,7 @@
 ---
 title: Node.js模块系统
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-16 17:23:32
 ---
 为了让Node.js的文件可以相互调用，Node.js提供了一个简单的模块系统。

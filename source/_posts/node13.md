@@ -1,7 +1,7 @@
 ---
 title: Node.js GET/POST请求
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-22 08:36:08
 ---
 node get/post demo

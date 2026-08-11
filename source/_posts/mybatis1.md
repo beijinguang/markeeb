@@ -1,7 +1,7 @@
 ---
 title: mybatis generator 配置文件
 categories: [mybatis]
-tags: [mybatis]
+tags: [MyBatis]
 date: 2016-12-12 17:04:37
 description: mybatis generator xml详解
 ---
@@ -75,3 +75,4 @@ description: mybatis generator xml详解
     </context>  
 </generatorConfiguration>  
 ```
+<!-- more -->

@@ -1,7 +1,7 @@
 ---
 title: Node.js 常用工具
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-20 10:19:13
 ---
 util 是一个Node.js 核心模块，提供常用函数的集合，用于弥补核心JavaScript 的功能 过于精简的不足。

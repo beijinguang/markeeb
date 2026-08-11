@@ -1,7 +1,7 @@
 ---
 title: Springboot
 categories: [Spring]
-tags: [Spring]
+tags: [Spring, Spring Boot]
 date: 2020-07-15 11:11:07
 description:
 ---
@@ -21,6 +21,7 @@ description:
 # Spring Boot启动配置原理
 
 启动流程
+<!-- more -->
 
 创建SpringApplication对象
 

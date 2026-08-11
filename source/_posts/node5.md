@@ -1,7 +1,7 @@
 ---
 title: Node.js EventEmitter
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-15 14:03:52
 ---
 Node.js 所有的异步 I/O 操作在完成时都会发送一个事件到事件队列。

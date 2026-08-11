@@ -1,6 +1,14 @@
+---
+title: LevelDB
+date: 2020-10-12 07:24:19
+categories: [数据库]
+tags: [LevelDB, 数据库]
+---
+
 LevelDB
 
 LevelDb是能够处理十亿级别规模Key-Value型数据持久性存储的C++ 程序库。LevelDB的数据是存储在磁盘上的，采用[LSM-Tree](http://ov6v82oa9.bkt.clouddn.com/download.pdf)的结构实现。LSM-Tree将磁盘的随机写转化为顺序写，从而大大提高了写速度。
+<!-- more -->
 
 LevelDb有如下一些特点：
 
@@ -13,4 +21,3 @@ LevelDb有如下一些特点：
 　　　　另外，LevelDb支持数据快照（snapshot）功能，使得读取操作不受写操作影响，可以在读操作过程中始终看到一致的数据。
 
 　　除此外，LevelDb还支持**数据压缩**等操作，这对于**减小存储空间**以及**增快IO效率**都有直接的帮助。
-

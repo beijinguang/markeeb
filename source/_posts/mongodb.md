@@ -1,7 +1,7 @@
 ---
 title: mongodb
 categories: [mongodb]
-tags: [mongodb]
+tags: [MongoDB]
 date: 2016-10-09 16:28:41
 description: MongoDB 积累
 ---

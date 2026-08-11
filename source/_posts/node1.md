@@ -2,7 +2,7 @@
 title: Node.js 创建第一个应用
 date: 2016-08-14 17:21:33
 categories: [node]
-tags: [node]
+tags: [Node.js]
 ---
 node第一个应用
 <!-- more -->

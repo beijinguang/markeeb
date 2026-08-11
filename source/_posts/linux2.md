@@ -12,6 +12,7 @@ LINUX开启允许对外访问的网络端口
 LINUX通过下面的命令可以开启允许对外访问的网络端口： 
  
 /sbin/iptables -I INPUT -p tcp --dport 8000 -j ACCEPT #开启8000端口 
+<!-- more -->
  
 /etc/rc.d/init.d/iptables save #保存配置 
  

@@ -1,7 +1,7 @@
 ---
 title: java虚拟机性能监控与故障管理工具
 categories: [jvm]
-tags: [jvm]
+tags: [JVM]
 date: 2016-10-24 16:52:59
 description: jps，jstat
 ---
@@ -11,6 +11,7 @@ description: jps，jstat
 用途：列出正在运行的虚拟机进程，并显示虚拟机执行主类（Main Class，main()函数所在类）名称以及这些进程的本地
 虚拟机唯一ID（Local Virtual Machine Identifier,LVMID）
 命令格式：*jps [option] [hostid]*
+<!-- more -->
 
 |选项|作用|
 |:-:|:-|

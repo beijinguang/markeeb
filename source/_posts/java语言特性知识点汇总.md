@@ -2,7 +2,7 @@
 title: java语言特性知识点汇总
 date: 2020-05-28 20:10:32
 categories: [java]
-tags: [java]
+tags: [Java]
 ---
 
 ```mermaid
@@ -46,3 +46,5 @@ G --> 注解处理机制
 
 
 
+
+<!-- more -->

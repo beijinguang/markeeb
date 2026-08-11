@@ -1,7 +1,7 @@
 ---
 title: MyBatis Generator配置文件详解
 categories: [mybatis]
-tags: [mybatis]
+tags: [MyBatis]
 date: 2016-12-28 15:30:03
 description: MyBatis Generator配置文件的标签
 ---
@@ -30,6 +30,7 @@ jdbcType 数据库字段类型
   <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
 </table>
 ```
+<!-- more -->
  
 
 ##  &lt;columnRenamingRule&gt;

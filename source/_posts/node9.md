@@ -1,7 +1,7 @@
 ---
 title: Node.js 路由
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-17 10:59:38
 ---
 我们要为路由提供请求的URL和其他需要的GET及POST参数，随后路由需要根据这些数据来执行相应的代码。

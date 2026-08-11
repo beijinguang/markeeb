@@ -1,7 +1,7 @@
 ---
 title: 常用xpath例子
 categories: [xpath]
-tags: [xpath]
+tags: [开发工具]
 date: 2017-08-10 10:40:40
 description: 常用xpath例子
 ---
@@ -10,6 +10,7 @@ description: 常用xpath例子
 
 根据字符串匹配节点，通过contains()、text()匹配
 .//*[@id='detail_all']/div[1]/ul/li[contains(text(), '字 数：')]/text()
+<!-- more -->
 
 节点属性不包含*字符串，通过not()、contains()匹配
 `.//[@id=’con_ListStyleTab4A_1’]/p[not(contains(@class, ‘title’))]/a[@class=’Author’]/text()`

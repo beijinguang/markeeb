@@ -1,7 +1,7 @@
 ---
 title: Node.js 全局对象
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-19 10:27:33
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 一行配置文件引发的“血案”
 categories: [java]
-tags: [java,servlet]
+tags: [Java]
 date: 2016-11-02 17:14:32
 description: servlet3.0 的metadata-complete 属性
 ---
@@ -55,6 +55,7 @@ new hello.jsp
 。。。。。。。。
 还是给我找到了web.xml，有这么一个属性metadata-complete="true"，貌似没怎么见过啊，我去掉它试试呢？
 终于出现了我要的hello页面。
+<!-- more -->
 
 于是，查到了如下解释：
 metadata-complete 属性，该属性指定当前的部署描述文件是否是完全的。如果设置为 true，则容器在部署时将只依赖部署描述文件，

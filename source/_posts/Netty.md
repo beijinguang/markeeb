@@ -6,13 +6,13 @@ date: 2017-07-24 17:22:10
 description:
 ---
 
-<!-- more -->
-
 Netty
 
 What is Netty?
 
 Netty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers & clients.
+
+<!-- more -->
 
 ![image-20200721113424540](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200721113424540.png)
 
@@ -117,7 +117,6 @@ Reactor Thread->IoHandler:11.handleRead()异步读请求消息到ByteBuffer
 IoHandler->IoHandler:12.decode请求消息
 IoHandler->Reactor Thread:13.异步写ByteBuffer到SocketChannel
 ```
-
 
 
 

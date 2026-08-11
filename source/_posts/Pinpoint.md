@@ -1,15 +1,16 @@
 ---
 title: Pinpoint安装使用
 categories: [Pinpoint]
-tags: [Pinpoint,链路追踪]
+tags: [性能优化, 分布式系统]
 date: 2020-06-09 11:02:09
 description:
 ---
 
-<!-- more -->
 # Pinpoint安装使用
 
 **Pinpoint**是用于用Java / PHP编写的大规模分布式系统的APM（应用程序性能管理）工具。受[Dapper的](http://research.google.com/pubs/pub36356.html)启发，Pinpoint提供了一种解决方案，可通过跟踪跨分布式应用程序的事务来帮助分析系统的整体结构以及其中的组件如何互连。
+
+<!-- more -->
 
 你一定要检查**精确定位**，如果你想
 

@@ -2,7 +2,7 @@
 title: markdown语法积累
 date: 2016-08-15 11:24:11
 categories: [markdown]
-tags: [markdown]
+tags: [Markdown]
 ---
 markdown
 <!-- more -->

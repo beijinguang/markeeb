@@ -1,12 +1,10 @@
 ---
 title: MySQL权限分配
 categories: [mysql]
-tags: [mysql]
+tags: [MySQL, 数据库]
 date: 2018-05-27 18:12:11
 description:
 ---
-
-<!-- more -->
 
 ## MySQL权限分配
 
@@ -27,6 +25,8 @@ CREATE USER 'someuser'@'localhost' IDENTIFIED BY '654321'
 ```
 
 
+
+<!-- more -->
 
 ### 查看用户权限
 

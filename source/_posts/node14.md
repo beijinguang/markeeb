@@ -1,7 +1,7 @@
 ---
 title: 使用 Node 创建 Web 服务器和客户端
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-23 10:43:09
 ---
 node web demo

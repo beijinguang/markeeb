@@ -1,7 +1,7 @@
 ---
 title: 性能概述
 categories: [java]
-tags: [java]
+tags: [Java]
 date: 2016-11-03 12:11:59
 description:
 ---
@@ -11,6 +11,7 @@ description:
 - 内存分配：
 - 启动时间：
 - 负载承受能力：
+<!-- more -->
 
 性能调优的层次
 - 设计调优

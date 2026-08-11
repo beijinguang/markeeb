@@ -1,11 +1,10 @@
 ---
 title: springboot启动器
 categories: [springboot]
-tags: [springboot]
+tags: [Spring, Spring Boot]
 date: 2020-06-28 11:09:07
 description:
 ---
-<!-- more -->
 ## 编写springboot启动器（starter）
 
 
@@ -15,6 +14,7 @@ description:
 - 官方 spring-boot-starter-模块名
 - 非官方（如我们自己编写的） 模块名-spring-boot-starter
 
+<!-- more -->
 
 
 ### 模块结构
@@ -88,5 +88,4 @@ com.xxx.xxx.XxxAutoConfiguration
    <optional>true</optional>
 </dependency>
 ```
-
 

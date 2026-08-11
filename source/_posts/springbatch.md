@@ -1,7 +1,7 @@
 ---
 title: springbatch
 categories: [spring]
-tags: [spring batch]
+tags: [Spring]
 date: 2016-12-27 14:29:23
 description: springbatch
 ---
@@ -19,3 +19,4 @@ spring batch是用来处理大量数据操作的一个框架，主要用来读�
 |ItemReader|用来读取数据的接口|
 |ItemProcessor|用来处理数据的接口|
 |ItemWriter|用来输出数据的接口|
+<!-- more -->

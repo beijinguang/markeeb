@@ -1,8 +1,8 @@
 ---
 title: builderpattern
 date: 2016-08-10 13:41:38
-categories:
-tags:
+categories: [设计模式]
+tags: [Java, 设计模式]
 ---
 Java之建造者模式(Builder Pattern)
 <!-- more -->
@@ -80,4 +80,3 @@ public class Main {
 }
 ```
 
-    

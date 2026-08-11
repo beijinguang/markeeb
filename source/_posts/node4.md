@@ -2,7 +2,7 @@
 title: Node.js 事件循环
 date: 2016-08-15 13:08:41
 categories: [node]
-tags: [node]
+tags: [Node.js]
 ---
 
 事件循环和事件驱动程序

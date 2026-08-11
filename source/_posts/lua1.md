@@ -7,6 +7,7 @@ description: lua
 ---
 
 学习参考网站：
+<!-- more -->
 
 [http://book.luaer.cn/](http://book.luaer.cn/)
 [http://lua-users.org/wiki/TutorialDirectory](http://lua-users.org/wiki/TutorialDirectory)

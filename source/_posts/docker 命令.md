@@ -2,7 +2,7 @@
 title: docker 命令
 date: 2020-05-29 19:10:32
 categories: [docker]
-tags: [docker]
+tags: [Docker]
 ---
 
 ## docker 命令
@@ -20,6 +20,7 @@ docker search
 docker stop
 
 docker ps a
+<!-- more -->
 
 docker start
 

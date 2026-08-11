@@ -2,7 +2,7 @@
 title: docker 容器数据卷
 date: 2020-05-28 23:10:32
 categories: [docker]
-tags: [docker]
+tags: [Docker]
 ---
 
 ## Dockerfile指令
@@ -28,6 +28,7 @@ tags: [docker]
   构建容器过程中的执行的命令
 
 #### EXPOSE
+<!-- more -->
 
   当前容器对外暴露出的端口
 

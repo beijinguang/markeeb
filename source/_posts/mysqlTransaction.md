@@ -1,7 +1,7 @@
 ---
 title: 更改MySQL的默认事务隔离级别
 categories: [mysql]
-tags: [mysql,Transaction]
+tags: [MySQL, 数据库]
 date: 2016-10-13 13:19:03
 description: 事务隔离级别
 ---
@@ -13,6 +13,7 @@ description: 事务隔离级别
 |读已提交 Read committed|X|O|O|
 |可重复读 Repeatableread|X|X|O|
 |可串行化 Serializable |X|X|X|
+<!-- more -->
 
 大多数的数据库系统的默认事务隔离级别都是：Read committed
 而MySQL的默认事务隔离级别是：Repeatable Read

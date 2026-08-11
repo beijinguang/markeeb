@@ -1,8 +1,7 @@
-
 ---
 title: 使用maxwell
 categories: [maxwell]
-tags: [maxwell,mysql]
+tags: [Maxwell, MySQL]
 date: 2020-07-27 11:02:09
 description:
 ---
@@ -13,6 +12,7 @@ description:
 - Download binary distro: [https://github.com/zendesk/maxwell/releases/download/v1.26.3/maxwell-1.26.3.tar.gz](https://github.com/zendesk/maxwell/releases/download/v1.26.3/maxwell-1.26.3.tar.gz)
 - Sources and bug tracking is available on github: [https://github.com/zendesk/maxwell](https://github.com/zendesk/maxwell)
 - Obligatory copy/paste to terminal:
+<!-- more -->
 
 ```
 curl -sLo - https://github.com/zendesk/maxwell/releases/download/v1.26.3/maxwell-1.26.3.tar.gz \

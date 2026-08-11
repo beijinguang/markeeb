@@ -1,13 +1,14 @@
 ---
 title: js与jQuery 获取父窗、子窗的iframe
 categories: [jQuery]
-tags: [jQuery,iframe]
+tags: [JavaScript]
 date: 2016-11-28 16:48:31
 description: js与jQuery 获取父窗、子窗的iframe
 ---
 
 今天爬取一个页面的时候，chrome开发着工具明明看到了一个input上的id，但是用jQuery 却得不到，仔细观察Dom才发现
 此id是在一个iframe里面，于是查询以些资料总结如下：
+<!-- more -->
 
 ## js
 ### 在父窗口中获取iframe中的元素

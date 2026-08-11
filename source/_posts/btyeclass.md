@@ -1,7 +1,7 @@
 ---
 title: Class类文件的结构
 categories: [jvm]
-tags: [java,jvm]
+tags: [Java, JVM]
 date: 2016-10-27 10:07:36
 description: Class类文件解析
 ---
@@ -9,6 +9,7 @@ description: Class类文件解析
 Class 文件是一组以8位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑地排列在Class文件中，中间没有任何分隔符，这
 使得整个Class文件之中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。当遇到需要占用8位字节以上空间的数据项是，则会
 按照高位在前的方式分割成若干个8位字节进行存储。
+<!-- more -->
 
 Class结构中只有两种数据类型：无符号数和表
 

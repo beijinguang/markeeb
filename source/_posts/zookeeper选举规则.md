@@ -1,7 +1,7 @@
 ---
 title: zookeeper选举规则
 categories: [zookeeper]
-tags: [zookeeper]
+tags: [ZooKeeper]
 date: 2020-07-15 11:11:07
 description:
 ---
@@ -21,6 +21,7 @@ description:
 ​      4.LEADER：领导者
 
 投票信息：
+<!-- more -->
 
 ​      1.logicalclock（electionEpoch）：本地选举周期，每次投票都会自增
 

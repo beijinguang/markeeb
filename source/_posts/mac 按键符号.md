@@ -1,7 +1,7 @@
 ---
 title: mac按键符号
 categories: [mac]
-tags: [mac]
+tags: [开发工具]
 date: 2017-03-20 11:21:11
 description:
 ---
@@ -29,6 +29,7 @@ End	Fn + →
 ⇥	右制表符（Tab键）
 ⇤	左制表符（Shift+Tab）
 ⎋	Escape (Esc)
+<!-- more -->
 
 ## mac输入特殊符号的方法
 

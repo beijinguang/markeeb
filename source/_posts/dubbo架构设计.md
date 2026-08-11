@@ -2,7 +2,7 @@
 title: dubbo架构设计
 date: 2020-05-28 20:10:32
 categories: [dubbo]
-tags: [dubbo]
+tags: [Dubbo]
 ---
 
 ### dubbo架构设计
@@ -14,6 +14,7 @@ r 注册中心
 cm（厘米）registry，cluster（），moniter（监控）
 
 pets（protocol-exchange-transport-serialize）
+<!-- more -->
 
 ![image-20200821100631881](https://gitee.com/idea4j/imagerep/raw/master/images/image-20200821100631881.png)
 

@@ -1,7 +1,7 @@
 ---
 title: 美国历任总统，在任年限及所属党派
 categories: [其他]
-tags: [其他]
+tags: [历史]
 date: 2016-11-09 11:20:52
 description: 美国历任总统，在任年限及所属党派
 ---
@@ -51,3 +51,4 @@ description: 美国历任总统，在任年限及所属党派
 |42|威廉·杰斐逊·克林顿（William Jefferson Clinton）| 1993-2001 |民主党
 |43|乔治·沃克·布什（George Walker Bush）| 2001-2009 |共和党|
 |44|贝拉克·侯赛因·奥巴马（Barack Hussein Obama）|2009-2017|民主党|
+<!-- more -->

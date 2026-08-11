@@ -1,7 +1,7 @@
 ---
 title: 如何替换 JDK 的类
 categories: [如何替换 JDK 的类]
-tags: [如何替换 JDK 的类]
+tags: [Java, 类加载]
 date: 2020-07-15 11:11:07
 description:
 ---
@@ -13,6 +13,7 @@ description:
 ### 如何替换jdk中的类呢？Java提供了endorsed技术。
 
 关于 endorsed ：可以的简单理解为 -Djava.endorsed.dirs 指定的目录面放置的jar文件，将有覆盖系统API的功能。但是能够覆盖的类是有限制的，其中不包括java.lang包中的类(出于安全的考虑)。
+<!-- more -->
 
 
 

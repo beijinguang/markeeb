@@ -1,12 +1,10 @@
 ---
 title: RabbitMQ命令行
 categories: [RabbitMQ]
-tags: [RabbitMQ,消息队列]
+tags: [RabbitMQ, 消息队列]
 date: 2020-06-04 14:13:09
 description:
 ---
-<!-- more -->
-
 ## RabbitMQ命令行
 
 RabbitMQ附带多个命令行工具：
@@ -16,6 +14,8 @@ RabbitMQ附带多个命令行工具：
 - 用于[插件管理的](https://www.rabbitmq.com/plugins.html)[rabbitmq-plugins](https://www.rabbitmq.com/rabbitmq-plugins.8.html)
 - 用于[队列](https://www.rabbitmq.com/queues.html)（尤其是[仲裁队列）](https://www.rabbitmq.com/quorum-queues.html)维护任务的[ rabbitmq](https://www.rabbitmq.com/rabbitmq-queues.8.html)[队列](https://www.rabbitmq.com/quorum-queues.html)
 - [rabbitmq-upgrade](https://www.rabbitmq.com/rabbitmq-upgrade.8.html)用于与[升级](https://www.rabbitmq.com/upgrade.html)相关的维护任务
+
+<!-- more -->
 
 它们可以在安装根目录的sbin目录下找到。
 

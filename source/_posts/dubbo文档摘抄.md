@@ -2,7 +2,7 @@
 title: dubbo负载均衡
 date: 2020-05-28 20:10:32
 categories: [dubbo]
-tags: [dubbo]
+tags: [Dubbo]
 ---
 
 
@@ -13,6 +13,7 @@ Dubbo 提供了4种负载均衡实现，分别是：
 - 基于最少活跃调用数算法的 LeastActiveLoadBalance；
 - 基于 hash 一致性的 ConsistentHashLoadBalance；
 - 基于加权轮询算法的 RoundRobinLoadBalance；
+<!-- more -->
 
 
 

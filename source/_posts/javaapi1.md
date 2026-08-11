@@ -1,7 +1,7 @@
 ---
 title: Java API 学习之ClassLoader
 categories: [java]
-tags: [java]
+tags: [Java]
 date: 2016-12-08 10:13:42
 description: ClassLoader
 ---
@@ -11,6 +11,7 @@ description: ClassLoader
 - 父类：java.lang.Object
 - 类属性：抽象类
 - 定义语句：public abstract class ClassLoader extends Object
+<!-- more -->
 
 ### 概念和用途
 类加载器是负责加载类的对象。如果给定类的二进制名称，那么类加载器会试图查找或生成构成类定义的数据。一般策略是将名称转换

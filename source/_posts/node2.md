@@ -2,7 +2,7 @@
 title: NPM 使用介绍
 date: 2016-08-15 11:20:29
 categories: [node]
-tags: [node]
+tags: [Node.js]
 ---
 NPM 使用介绍
 <!-- more -->

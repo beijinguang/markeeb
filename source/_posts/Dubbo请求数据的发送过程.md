@@ -2,7 +2,7 @@
 title: Dubbo请求数据的发送过程
 date: 2020-05-28 20:10:32
 categories: [dubbo]
-tags: [dubbo]
+tags: [Dubbo]
 ---
 
 ### Dubbo请求数据的发送过程
@@ -10,6 +10,7 @@ tags: [dubbo]
 调用过程（IMAF FLADR HHAANN） （3invoke + doInvoke）*2+3request+3send+write
 
 Proxy0#sayHello(String)
+<!-- more -->
 
 ​	->InvokerInvocationHandle#invoke
 

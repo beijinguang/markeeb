@@ -1,7 +1,7 @@
 ---
 title: 改善性能的几个技巧
 categories: [java]
-tags: [java]
+tags: [Java]
 date: 2016-11-04 15:46:16
 description: 略
 ---
@@ -30,3 +30,5 @@ description: 略
 
 ### 静态方法代替实例方法
 
+
+<!-- more -->

@@ -2,7 +2,7 @@
 title: Class文件格式
 date: 2020-05-28 20:10:32
 categories: [字节码]
-tags: [字节码]
+tags: [Java, JVM]
 ---
 
 ## Class文件格式
@@ -25,6 +25,7 @@ tags: [字节码]
 | method_info | methods             | methods_count         |
 | u2    | attributes_count    | 1                     |
 | attribute_info | attributes          | attributes_count      |
+<!-- more -->
 
 
 

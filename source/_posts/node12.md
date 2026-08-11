@@ -1,11 +1,13 @@
 ---
 title: Node.js 文件系统
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-20 13:15:53
 ---
-<!-- more -->
 Node.js 提供一组类似 UNIX（POSIX）标准的文件操作API。 Node 导入文件系统模块(fs)语法如下所示：
+
+<!-- more -->
+
 ```js
 var fs = require("fs")
 ```

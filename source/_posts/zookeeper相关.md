@@ -1,7 +1,7 @@
 ---
 title: zookeeper相关
 categories: [zookeeper]
-tags: [zookeeper]
+tags: [ZooKeeper]
 date: 2020-07-15 11:11:07
 description:
 ---
@@ -11,6 +11,7 @@ description:
 ## ZooKeeper 是什么？
 
 ​	ZooKeeper 是一个开源的分布式协调服务。它是一个为分布式应用提供一致性服务的软件，分布式应用程序可以基于 Zookeeper 实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能。
+<!-- more -->
 
 ​	ZooKeeper 的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。
 

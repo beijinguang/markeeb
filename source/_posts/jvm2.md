@@ -1,7 +1,7 @@
 ---
 title: 堆分配参数
 categories: [jvm]
-tags: [jvm]
+tags: [JVM]
 date: 2016-12-19 15:42:09
 description: 与java程序堆内存相关的jvm参数
 ---
@@ -17,5 +17,6 @@ description: 与java程序堆内存相关的jvm参数
 - -XX:MaxPermSize:设置最大持久区堆大小。
 - -XX:PermSize:设置永久区的初始值。
 - -XX:TargetSurvivorRatio:设置survivior区的可使用率。当survivior区的空间使用率达到这个值是，会将对象送到老年代。
+<!-- more -->
 
 

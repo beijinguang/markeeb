@@ -2,7 +2,7 @@
 title: sublime text 3 使用积累
 date: 2016-08-14 17:50:05
 categories: [sublime text]
-tags: [sublime text]
+tags: [开发工具]
 ---
 sublime text 3 使用积累
 <!-- more -->

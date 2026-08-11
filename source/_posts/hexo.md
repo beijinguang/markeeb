@@ -1,7 +1,7 @@
 ---
 title: hexo + github建站
 categories: [hexo]
-tags: [hexo]
+tags: [Hexo]
 date: 2016-10-09 17:45:43
 description:
 ---
@@ -18,3 +18,4 @@ npm install -g hexo-cli
 ```sh
 hexo init [folder]
 ```
+<!-- more -->

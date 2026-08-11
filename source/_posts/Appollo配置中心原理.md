@@ -1,7 +1,7 @@
 ---
 title: Appollo配置中心原理
 categories: [Appollo]
-tags: [Appollo]
+tags: [分布式系统]
 date: 2019-08-17 11:11:07
 description:
 ---
@@ -23,6 +23,7 @@ Apollo的总体设计，自下而上看：
 - Client 通过域名访问 Meta Server 获取 Config Service 服务列表（IP+Port），而后直接通过 IP+Port 访问服务，同时在 Client 侧会做 load balance、错误重试
 - Portal 通过域名访问 Meta Server 获取 Admin Service 服务列表（IP+Port），而后直接通过 IP+Port 访问服务，同时在 Portal 侧会做 load balance、错误重试
 - 为了简化部署，实际上会把 Config Service、Eureka 和 Meta Server 三个逻辑角色部署在同一个JVM进程中
+<!-- more -->
 
 
 

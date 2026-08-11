@@ -1,7 +1,7 @@
 ---
 title: 使用maxwell实时同步mysql数据到消息队列(rabbitMQ)
 categories: [maxwell]
-tags: [maxwell,mysql]
+tags: [Maxwell, MySQL]
 date: 2020-07-27 11:02:09
 description:
 ---

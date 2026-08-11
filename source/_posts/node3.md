@@ -2,7 +2,7 @@
 title: Node.js 回调函数
 date: 2016-08-15 13:07:52
 categories: [node]
-tags: [node]
+tags: [Node.js]
 ---
 
 Node.js 异步编程的直接体现就是回调。

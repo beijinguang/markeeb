@@ -1,7 +1,7 @@
 ---
 title: linux下svn安装
 categories: [svn]
-tags: [svn]
+tags: [开发工具]
 date: 2016-12-21 11:15:45
 description: linux下svn安装
 ---
@@ -35,6 +35,7 @@ product = markee
   password-db = passwd #使用哪个文件作为账号文件
   authz-db = authz #使用哪个文件作为权限文件
   realm = /var/svn/idea4j # 认证空间名，版本库所在目录
+<!-- more -->
   
 9. 启动svn版本库  svnserve -d -r /var/svn/idea4j（停止SVN命令  killall svnserve）
 

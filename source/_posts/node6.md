@@ -1,7 +1,7 @@
 ---
 title: Node.js Buffer(缓冲区)
 categories: [node]
-tags: [node]
+tags: [Node.js]
 date: 2016-08-16 14:14:45
 ---
 JavaScript 语言自身只有字符串数据类型，没有二进制数据类型。

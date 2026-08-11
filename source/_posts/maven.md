@@ -1,12 +1,13 @@
 ---
 title: maven
 categories: [maven]
-tags: [maven]
+tags: [Maven]
 date: 2016-08-20 11:37:33
 ---
 
 
 mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar
+<!-- more -->
 
 ### aliyun阿里云Maven仓库地址——加速你的maven构建
 修改setting.xml

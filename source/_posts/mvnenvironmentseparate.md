@@ -1,7 +1,7 @@
 ---
 title: Maven 打包实现环境配置分离
 categories: [maven]
-tags: [maven]
+tags: [Maven]
 date: 2016-10-21 10:16:09
 description: 使用maven实现环境配置分离
 ---
@@ -9,6 +9,7 @@ description: 使用maven实现环境配置分离
 主要是通过打包时传递不同的参数来实现不同的环境产生不同的配置文件（如数据库连接等），从而实现同一版本代码不同部署环境。
 
 废话不多说，直接上干货，进行以下步骤就可以改造你的工程了
+<!-- more -->
 
 ### 先修改pom.xml
 build下配置

@@ -2,7 +2,7 @@
 title: GC日志配置
 date: 2020-05-28 20:10:32
 categories: [GC]
-tags: [GC]
+tags: [Java, JVM]
 ---
 
 **Java 8**
@@ -28,6 +28,7 @@ JAVA_OPT="${JAVA_OPT} -XX:-OmitStackTraceInFastThrow"
 -Xloggc:/tmp/logs/gc_%p.log -XX:+HeapDumpOnOutOfMemoryError 
 -XX:HeapDumpPath=/tmp/logs -XX:ErrorFile=/tmp/logs/hs_error_pid%p.log 
 -XX:-OmitStackTraceInFastThrow
+<!-- more -->
 
 
 

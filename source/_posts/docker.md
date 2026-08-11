@@ -1,13 +1,14 @@
 ---
 title: Boot2Docker 启动闪退
 categories: [docker]
-tags: [docker]
+tags: [Docker]
 date: 2016-12-26 10:10:28
 description: boot2docker 启动问题解决
 ---
 
 windows 安装了个Boot2Docker来玩玩，结果安装完，一点启动出现个对话框就闪退了，百度了下也有人出现同样的问题
 http://blog.csdn.net/freeape/article/details/51173258
+<!-- more -->
 
 按照上面的方法试了下出现了一下问题：
 

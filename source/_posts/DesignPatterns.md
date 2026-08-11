@@ -2,7 +2,7 @@
 title: 设计模式(一)
 date: 2016-08-09 21:11:41
 categories: [设计模式]
-tags: [设计模式,java]
+tags: [设计模式, Java]
 ---
 
 设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结

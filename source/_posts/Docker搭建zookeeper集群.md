@@ -2,7 +2,7 @@
 title: Docker搭建zookeeper集群
 date: 2020-05-28 20:10:32
 categories: [docker]
-tags: [docker,zookeeper]
+tags: [Docker, ZooKeeper]
 ---
 
 
@@ -15,6 +15,7 @@ tags: [docker,zookeeper]
 用于存储配置文件和数据，使用docker数据和配置文件等需要放在自己的宿主机，而不是容器内，特别是数据
 
 `mkdir -p zookeeper/conf`
+<!-- more -->
 
 `mkdir -p zookeeper/data`
 

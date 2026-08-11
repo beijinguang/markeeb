@@ -1,7 +1,7 @@
 ---
 title: jenkins 安装
 categories: [CI]
-tags: [CI]
+tags: [CI/CD]
 date: 2016-12-21 20:42:02
 description: jenkins 安装
 ---
@@ -10,6 +10,7 @@ description: jenkins 安装
 sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo 
 sudo rpm --import http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key 
 sudo yum install jenkins
+<!-- more -->
 
 
 进入jenkins的系统配置文件并修改相关端口号

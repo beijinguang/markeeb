@@ -1,7 +1,7 @@
 ---
 title: sql优化
 categories: [mysql]
-tags: [mysql]
+tags: [MySQL, SQL, 性能优化]
 date: 2016-11-14 14:24:28
 description: mysql查询语句优化方法
 ---
@@ -44,6 +44,7 @@ select id from t where createdate>='2005-11-30' and createdate<'2005-12-1'
 select col1,col2 into #t from t where 1=0
 这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：
 create table #t(...)
+<!-- more -->
 
 13. 很多时候用 exists 代替 in 是一个好的选择：
 select num from a where num in(select num from b)

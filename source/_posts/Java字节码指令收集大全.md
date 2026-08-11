@@ -2,7 +2,7 @@
 title: Java字节码指令收集大全
 date: 2020-05-28 20:10:32
 categories: [Java字节码]
-tags: [Java字节码]
+tags: [Java, JVM]
 ---
 
 ## Java字节码指令收集大全
@@ -33,6 +33,7 @@ tags: [Java字节码]
 | 0x12          | ldc|  indexbyte1     | 常量池中的常量值<br/>（int, float, string reference, object reference）入栈。 |
 | 0x13          | ldc_w     |  indexbyte1 indexbyte2  | 常量池中常量<br/>（int, float, string reference, object reference）入栈。 |
 | 0x14          | ldc2_2     |  indexbyte1 indexbyte2      |  常量池中常量（long, double）入栈。    |
+<!-- more -->
 
 ### 局部变量值转载到栈中指令
 

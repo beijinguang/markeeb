@@ -2,7 +2,7 @@
 title: Context初始化流程
 date: 2020-05-28 20:10:32
 categories: [spring]
-tags: [spring]
+tags: [Spring]
 ---
 
 Context初始化流程
@@ -10,6 +10,7 @@ Context初始化流程
 1.prepareRefresh
 
 对刷新进行准备，包括设置开始时间、设置激活状态、初始化context环境中的占位符这个动作，根据之类的需求由子类来执行，然后验证是否却是必要的properties。
+<!-- more -->
 
 2.ConfiguratbleListableBeanFactory beanFactory=obtainFreshBeanfactory();
 

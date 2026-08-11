@@ -1,7 +1,7 @@
 ---
 title: Redis
 categories: [Redis]
-tags: [Redis]
+tags: [Redis, 缓存]
 date: 2020-07-15 11:11:07
 description:
 ---
@@ -14,6 +14,7 @@ redis（remote dictionary server）
 ### redis数据类型
 
 redis支持5种数据类型：string（字符串）、hash（哈希）、list（列表）、set（集合）、zset（有序集合）
+<!-- more -->
 
 
 

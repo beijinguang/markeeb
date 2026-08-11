@@ -1,7 +1,7 @@
 ---
 title: 网关
 categories: [网关]
-tags: [网关]
+tags: [Spring, 分布式系统]
 date: 2020-07-15 11:11:07
 description:
 ---
@@ -26,6 +26,7 @@ GateWay属于SpringCloud自己研发的网关框架，属于第二代网关
 
 
 相比来说GateWay比Zuul网关性能好
+<!-- more -->
 
 Zuul网关底层基于Servlet实现的，阻塞式api，不支持长连接
 
