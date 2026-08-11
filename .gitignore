@@ -43,6 +43,11 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Hexo generated files
+public/
+.deploy_git/
+db.json
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

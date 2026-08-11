@@ -1,0 +1,20 @@
+author: markee
+avatar: /img/head.jpg
+favicon: /favicon.ico
+
+subnav:
+  Email: "mailto:wangjinguang66@163.com"
+  GitHub: "https://github.com/beijinguang"
+  RSS: "/atom.xml"
+
+friends:
+  Hexo: https://hexo.io
+  GitHub: https://pages.github.com/
+
+aboutme: 笨鸟也飞
+
+search:
+  on: true
+  onload: true
+
+baidu_tongji: c160bf5d12f84389ce96c02b54e4575f

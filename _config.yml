@@ -8,12 +8,12 @@ subtitle: 预测未来最好的方法是在现在创造未来
 description:
 author: markee
 email: wangjinguang66@163.com
-language: zh-CN
-timezone:
+language: zh-Hans
+timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://code.idea4j.com
+url: https://code.idea4j.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -32,7 +32,10 @@ skip_render:
 new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
-external_link: true # Open external links in new tab
+external_link:
+  enable: true
+  field: site
+  exclude: []
 filename_case: 0
 render_drafts: false
 post_asset_folder: true #
@@ -43,6 +46,10 @@ highlight:
   line_number: true
   auto_detect: false
   tab_replace:
+
+marked:
+  prependRoot: true
+  postAsset: true
 
 # Category & Tag
 default_category: uncategorized
@@ -55,6 +62,7 @@ tag_map:
 ## http://momentjs.com/docs/#/displaying/format/
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
+updated_option: date
 
 # Pagination
 ## Set per_page to 0 to disable pagination
@@ -74,9 +82,9 @@ search:
 #sitemap
 
 sitemap:
-  path: sitemap.xml
-baidusitemap:
-    path: baidusitemap.xml
+  path:
+    - sitemap.xml
+    - baidusitemap.xml
 
 
 
@@ -90,13 +98,13 @@ theme: yelee
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
-deploy: 
+deploy:
   type: git
-  repo: git@github.com:beijinguang/beijinguang.github.io.git
+  repo: https://github.com/beijinguang/beijinguang.github.io.git
   branch: master
 
 # Mermaid tag
 mermaid:
   enable: true
-  # Available themes: default | dark | forest | neutral
   theme: forest
+  script: https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs
